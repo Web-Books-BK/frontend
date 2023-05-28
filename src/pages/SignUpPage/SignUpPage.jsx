@@ -16,10 +16,10 @@ export default function SignUpPage() {
         })
     }
     
-    // Store value in localStorage
+    // Store value in sessionStorage
     const handleSubmit = (e) => {
         e.preventDefault();
-        localStorage.setItem('user', JSON.stringify(input));
+        sessionStorage.setItem('user', JSON.stringify(input));
         navigate("/login")
     }
 
@@ -38,7 +38,7 @@ export default function SignUpPage() {
                         name='username' value={input.username} onChange={handleInput} />
                         <TextField margin='normal' type='password' variant='outlined' label='Password' sx={{width: {sm: 300, md: 400}}}
                         name='password' value={input.password} onChange={handleInput} />
-                        <Button type='submit' sx={{margin:3, borderRadius:2, width: {xs: 200, sm: 300, lg: 150} }} variant='contained' color='info'>Dang ky</Button>
+                        <Button type='submit' sx={{margin:3, borderRadius:2, width: {xs: 200, sm: 300, lg: 150} }} variant='contained' color='info'>Đăng ký</Button>
                     </Box>
                 </form>            
             </div>

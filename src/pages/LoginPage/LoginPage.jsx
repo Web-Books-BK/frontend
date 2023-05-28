@@ -18,9 +18,9 @@ export default function LoginPage(){
     }
 
     const handleLogin = (e) => {
-        const logged = JSON.parse(localStorage.getItem('user'));
+        const logged = JSON.parse(sessionStorage.getItem('user'));
         if(input.username === logged.username && input.password === logged.password) {
-            localStorage.setItem('loggedIn', true);
+            sessionStorage.setItem('loggedIn', true);
             navigate('/');
         } else {
             alert('Something wrong!');
@@ -38,10 +38,12 @@ export default function LoginPage(){
                     <div>
                         <img src='airbnb.png' alt='LogoAirbnb' width='75px' height='75px' sx={{'maxWidth': '100%', 'maxHeight': '100%'}} />
                     </div>
+
                     <TextField margin='normal' type='text' variant='outlined' label='Username' sx={{width: {sm: 300, md: 400}}}
                     name='username' value={input.username} onChange={handleInput} />
                     <TextField margin='normal' type='password' variant='outlined' label='Password' sx={{width: {sm: 300, md: 400}}}
                     name='password' value={input.password} onChange={handleInput} />
+                    
                     <Button type='submit' sx={{margin:3, borderRadius:2, width: {xs: 200, sm: 300, lg: 150} }} variant='contained' color='info'>Đăng nhập</Button>
                     <Link to={'/signup'}>Đăng ký?</Link>
                 </Box>
