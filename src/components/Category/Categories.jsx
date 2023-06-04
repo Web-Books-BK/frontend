@@ -89,11 +89,11 @@ export default function Categories() {
 
     return (
         <>
-            <div 
+            <div
                 style={{
-                    display:'flex', flexDirection:'row', alignItems:'center', 
+                    display:'flex', flexDirection:'row', alignItems:'center',
                     justifyContent:'space-between', overflowX:'auto', paddingTop:'10px'
-                }}    
+                }}
             >
                 {categories.map((item) => (
                     <CategoryBox key={item.label} label={item.label} icon={item.icon} />
