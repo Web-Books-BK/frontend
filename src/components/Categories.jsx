@@ -87,9 +87,9 @@ export const categories = [
 export default function Categories() {
 
     return (
-        <div 
-            style={{display:'flex', flexDirection:'row', alignItems:'center', 
-            justifyContent:'space-between', overflowX:'auto', paddingTop:'100px'}}    
+        <div
+            style={{display:'flex', flexDirection:'row', alignItems:'center',
+            justifyContent:'space-between', overflowX:'auto', paddingTop:'100px'}}
         >
             {categories.map((item) => (
                 <CategoryBox key={item.label} label={item.label} icon={item.icon} />
