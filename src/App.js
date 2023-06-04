@@ -2,6 +2,7 @@ import {createBrowserRouter, RouterProvider, Routes, Route, useNavigate} from "r
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
+import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 
