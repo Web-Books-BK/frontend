@@ -2,6 +2,8 @@ import React, {useEffect, useState} from "react";
 import {Link } from "react-router-dom";
 import {Box, Button, TextField} from "@mui/material";
 import { useNavigate } from "react-router-dom";
+
+import logo from "../assets/images/airbnb.png";
 import authApi from "../api/authApi";
 import {useDispatch, useSelector} from "react-redux";
 import {login} from "../app/reducers/authSlice";
@@ -41,7 +43,7 @@ export default function LoginPage(){
                     width='500px' border='1px solid #ccc' borderRadius='20px' justifyContent='center' alignItems='center'
                     sx={{':hover': {boxShadow: '10px 10px 20px #ccc'}, 'width': {sm: 300, md: 400, lg: 500}}}>
                     <div>
-                        <img src='airbnb.png' alt='LogoAirbnb' width='75px' height='75px' sx={{'maxWidth': '100%', 'maxHeight': '100%'}} />
+                        <img src={logo} alt='LogoAirbnb' width='75px' height='75px' sx={{'maxWidth': '100%', 'maxHeight': '100%'}} />
                     </div>
 
                     <TextField margin='normal' type='text' variant='outlined' label='Username' sx={{width: {sm: 300, md: 400}}}

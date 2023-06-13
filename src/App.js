@@ -1,12 +1,35 @@
-import {createBrowserRouter, RouterProvider, Routes, Route, useNavigate} from "react-router-dom";
+
+import React from "react";
+import { createBrowserRouter, RouterProvider, } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
-import React from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
+import HostPage from "./pages/HostPage";
 
 function App() {
+    const router = createBrowserRouter([
+        {
+            path: "/",
+            element: <HomePage />,
+        },
+        {
+            path: "/login",
+            element: <LoginPage />,
+        },
+        {
+            path: "/signup",
+            element: <SignUpPage />,
+        },
+        {
+            path: "/hosts",
+            element: <HostPage />,
+        },
+        {
+          path: "/*",
+          element: <div>Blank Page</div>
+        },
+    ]);
+
     const authState = useSelector((state) => state.auth)
     const navigate = useNavigate();
     useEffect(()=>{
