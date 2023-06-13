@@ -1,3 +1,4 @@
+
 import React from "react";
 import { createBrowserRouter, RouterProvider, } from "react-router-dom";
 import HomePage from "./pages/HomePage";
@@ -28,9 +29,31 @@ function App() {
           element: <div>Blank Page</div>
         },
     ]);
+
+    const authState = useSelector((state) => state.auth)
+    const navigate = useNavigate();
+    useEffect(()=>{
+        if(authState.loggedIn == true) {
+            navigate("/");
+        }
+    },[authState.loggedIn])
   return (
     <div className="App">
-      <RouterProvider router={router} />
+      <Routes>
+          <Route>
+              {authState.loggedIn ?
+                  <>
+                  </>
+                  :
+                  <>
+                      <Route path='/login' element={<LoginPage />}/>
+                      <Route path='/signup' element={<SignUpPage />}/>
+                  </>
+              }
+              <Route  path='/' element={<HomePage />}/>
+              <Route path='/*' element={<div>Blank Page</div>}/>
+          </Route>
+      </Routes>
     </div>
   );
 }

@@ -88,14 +88,14 @@ export const categories = [
 export default function Categories() {
     return (
         <>
-            <div 
+            <div
                 style={{
                     display:'flex', flexDirection:'row', alignItems:'center', width:'100%',
                     justifyContent:'space-between', overflowX:'auto', padding:'5px',
                     position:'fixed', top:'80px', background: '#fff', zIndex:1,
                     borderTop:'1px solid #ccc', borderBottom:'1px solid #ccc'
                 }} 
-                
+
             >
                 {categories.map((item) => (
                     <CategoryBox 

@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {Link } from "react-router-dom";
 import {Box, Button, TextField} from "@mui/material";
 import { useNavigate } from "react-router-dom";
+
 import logo from "../assets/images/airbnb.png";
+import authApi from "../api/authApi";
+import {useDispatch, useSelector} from "react-redux";
+import {login} from "../app/reducers/authSlice";
 
 export default function LoginPage(){
     const navigate = useNavigate();
+    const authState = useSelector((state) => state.auth)
+    const dispatch = useDispatch();
     const [input, setInput] = useState({
         username: "",
         password: "",
@@ -14,22 +20,22 @@ export default function LoginPage(){
     const handleInput = (e) => {
         setInput({
             ...input,
-            [e.target.name]: e.target.value, 
+            [e.target.name]: e.target.value,
         })
     }
 
-    const handleLogin = (e) => {
-        const logged = JSON.parse(sessionStorage.getItem('user'));
-        if(input.username === logged.username && input.password === logged.password) {
-            sessionStorage.setItem('loggedIn', true);
-            navigate('/');
-        } else {
-            alert('Something wrong!');
+    const handleLogin = async (e) => {
+        const res = await authApi.login(input);
+        if (res.token != null) {
+            const result = sessionStorage.setItem("token", res.token);
+            dispatch(login(input.username));
         }
-
         e.preventDefault();
     }
-    
+    useEffect(()=>{
+        console.log(authState)
+    })
+
     return(
         <div>
             <form onSubmit={handleLogin}>
@@ -44,12 +50,15 @@ export default function LoginPage(){
                     name='username' value={input.username} onChange={handleInput} />
                     <TextField margin='normal' type='password' variant='outlined' label='Password' sx={{width: {sm: 300, md: 400}}}
                     name='password' value={input.password} onChange={handleInput} />
-                    
+
                     <Button type='submit' sx={{margin:3, borderRadius:2, width: {xs: 200, sm: 300, lg: 150} }} variant='contained' color='info'>Đăng nhập</Button>
                     <Link to={'/signup'}>Đăng ký?</Link>
                 </Box>
-            </form>            
+            </form>
+            <button onClick={()=>{
+                dispatch(login("hien"));
+            }}>login test</button>
         </div>
-        
+
     );
 }
