@@ -5,6 +5,8 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import HostPage from "./pages/HostPage";
+import DetailPage from "./pages/DetailPage";
+import RentedPage from "./pages/RentedPage";
 
 function App() {
     const router = createBrowserRouter([
@@ -24,6 +26,14 @@ function App() {
             path: "/hosts",
             element: <HostPage />,
         },
+        {
+          path: "/rented",
+          element: <RentedPage />,
+      },
+        {
+          path: "/details/*",
+          element: <DetailPage />,
+      },
         {
           path: "/*",
           element: <div>Blank Page</div>
