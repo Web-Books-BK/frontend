@@ -22,7 +22,7 @@ export default function HotelRent() {
         .catch(err => console.log(err))
     }, [])
 
-    const handleClick = (id) => { 
+    const handleClick = (id) => {
         let path = `/id=${id}`;
         navigate(path);
     }
@@ -46,24 +46,24 @@ export default function HotelRent() {
         })
         .catch((err) => {
             console.log(err);
-        }) 
+        })
     };
 
     return (
         <>
-            <h2 
+            <h2
                 style={{
-                    width:'600px', float:'left', position:'absolute', 
+                    width:'600px', float:'left', position:'absolute',
                     left:'40px', marginTop:'120px', fontWeight:'normal',
                     borderBottomStyle:'solid'
                 }}
             >
                 Hotel Rent
             </h2>
-            
-            <div 
+
+            <div
                 style={{
-                    display:'flex', flexDirection:'column', float:'left', 
+                    display:'flex', flexDirection:'column', float:'left',
                     position:'relative', marginTop:'160px', marginLeft:'40px',
                 }}
             >
@@ -94,7 +94,7 @@ export default function HotelRent() {
                                         {bookedRoom.title}
                                     </Typography>
                                     <Typography variant="body2" gutterBottom>
-                                        Booking date: {bookedRoom.bookingDate} 
+                                        Booking date: {bookedRoom.bookingDate}
                                     </Typography>
                                     <Typography variant="body2" gutterBottom sx={{fontStyle: "italic"}}>
                                         From: {bookedRoom.fromDate} To: {bookedRoom.toDate}
@@ -111,7 +111,7 @@ export default function HotelRent() {
                                         onClick={() => handleRemove(bookedRoom.id)}
                                     >
                                         <DeleteIcon sx={{marginRight:'8px'}} />
-                                        Remove                                      
+                                        Remove
                                     </Button>
                                 </Grid>
                                 </Grid>

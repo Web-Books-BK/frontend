@@ -14,7 +14,7 @@ export default function HotelUpload() {
         price: "",
         category: "",
     });
-    
+
     const theme = createTheme({
         spacing: 4,
     });
@@ -47,15 +47,15 @@ export default function HotelUpload() {
         .then((res) => {
             console.log(res.status, res.data.token);
         });
-    
+
         // Reset form fields
         e.target.reset();
     };
 
     return (
-        <div 
+        <div
             style={{
-                position:'relative', float:'right', right:40, width:'40%', 
+                position:'relative', float:'right', right:40, width:'40%',
                 boxShadow:'5px 5px 5px 5px #ccc', margin:'160px auto', padding:'20px'
             }}
         >
@@ -77,17 +77,30 @@ export default function HotelUpload() {
                     helperText="Enter your home name"
                     onChange={handleChange}
                 />
-                <TextField
-                    label="Image"
+                    <TextField
+                        label="Description"
+                        id="standard-basic"
+                        variant="standard"
+                        name="title"
+                        defaultValue={room.title}
+                        sx={{margin: theme.spacing(2), width: 500}}
+                        autoComplete='off'
+                        helperText="Enter description for your hotel"
+                        onChange={handleChange}
+                    />
+                <Button
                     id="standard-basic"
-                    variant="standard"
+                    variant="contained"
+                    component="label"
                     name="image"
-                    defaultValue={room.image}
-                    sx={{margin: theme.spacing(2), width: 500}}
-                    autoComplete='off'
-                    helperText="Enter your home's image address"
-                    onChange={handleChange}
-                />
+                >
+                    Upload Image
+                    <input
+                        type="file"
+                        hidden
+                        multiple
+                    />
+                </Button>
                 <TextField
                     label="Place"
                     id="standard-basic"
@@ -124,7 +137,7 @@ export default function HotelUpload() {
                     variant="contained"
                     sx={{margin: theme.spacing(6,2), backgroundColor: '#ef405f', display:'flex'}}
                 >
-                    Upload 
+                    Upload
                     <SendIcon sx={{marginLeft: theme.spacing(3)}} />
                 </Button>
                 </form>

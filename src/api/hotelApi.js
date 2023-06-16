@@ -2,7 +2,7 @@ import axiosClient from "./axiosClient";
 
 const hotelApi = {
     getListHotel: async () => {
-        const response = await axiosClient.get('/');
+        const response = await axiosClient.get('/rooms');
         return response.data;
     },
     getDetailHotal: async (id) => {
@@ -10,3 +10,4 @@ const hotelApi = {
         return response.data;
     }
 }
+export default hotelApi;

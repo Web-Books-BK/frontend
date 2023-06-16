@@ -9,11 +9,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {login} from "../app/reducers/authSlice";
 
 export default function LoginPage(){
+    const [wrongInfo, setWrongInfo] = useState(false);
     const navigate = useNavigate();
     const authState = useSelector((state) => state.auth)
     const dispatch = useDispatch();
     const [input, setInput] = useState({
-        username: "",
+        email: "",
         password: "",
     })
 
@@ -24,21 +25,31 @@ export default function LoginPage(){
         })
     }
 
-    const handleLogin = async (e) => {
-        const res = await authApi.login(input);
-        if (res.token != null) {
-            const result = sessionStorage.setItem("token", res.token);
-            dispatch(login(input.username));
+    const handleLogin = async () => {
+
+        try {
+            const res = await authApi.login(input);
+            console.log(res.status)
+            if (res.status == 200) {
+                const result = sessionStorage.setItem("token", res.headers['token']);
+                await dispatch(login(res.data.user));
+                setWrongInfo(false);
+                navigate("/");
+            }
+        }catch (e){
+            if (e.response.status == 401){
+                setWrongInfo(true);
+            }
         }
-        e.preventDefault();
+
     }
-    useEffect(()=>{
-        console.log(authState)
-    })
+    // useEffect(()=>{
+    //     console.log(authState)
+    // })
 
     return(
         <div>
-            <form onSubmit={handleLogin}>
+            <form >
                 <Box display='flex' flexDirection='column' margin='50px auto' boxShadow='5px 5px 10px #ccc' padding='30px'
                     width='500px' border='1px solid #ccc' borderRadius='20px' justifyContent='center' alignItems='center'
                     sx={{':hover': {boxShadow: '10px 10px 20px #ccc'}, 'width': {sm: 300, md: 400, lg: 500}}}>
@@ -46,18 +57,35 @@ export default function LoginPage(){
                         <img src={logo} alt='LogoAirbnb' width='75px' height='75px' sx={{'maxWidth': '100%', 'maxHeight': '100%'}} />
                     </div>
 
-                    <TextField margin='normal' type='text' variant='outlined' label='Username' sx={{width: {sm: 300, md: 400}}}
-                    name='username' value={input.username} onChange={handleInput} />
+                    <TextField margin='normal' type='text' variant='outlined' label='Email' sx={{width: {sm: 300, md: 400}}}
+                    name='email' value={input.email} onChange={handleInput} />
                     <TextField margin='normal' type='password' variant='outlined' label='Password' sx={{width: {sm: 300, md: 400}}}
                     name='password' value={input.password} onChange={handleInput} />
+                    {wrongInfo ?
+                        <>
+                         <p
+                            style={{
+                                color:'red',
+                            }}
+                         >Tài khoản hoặc mật khẩu không chính xác</p>
+                        </>
+                        :
+                        <></>}
 
-                    <Button type='submit' sx={{margin:3, borderRadius:2, width: {xs: 200, sm: 300, lg: 150} }} variant='contained' color='info'>Đăng nhập</Button>
+                    <Button onClick={handleLogin} sx={{margin:3, borderRadius:2, width: {xs: 200, sm: 300, lg: 150} }} variant='contained' color='info'>Đăng nhập</Button>
                     <Link to={'/signup'}>Đăng ký?</Link>
                 </Box>
             </form>
-            <button onClick={()=>{
-                dispatch(login("hien"));
-            }}>login test</button>
+            <Button
+                onClick={async ()=>{
+                    try {
+                        const res = await authApi.login(input);
+                        // console.log(res);
+                    }catch (e){
+                        console.log(e)
+                    }
+                }}
+            >test</Button>
         </div>
 
     );
