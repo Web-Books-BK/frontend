@@ -6,12 +6,17 @@ import { AiFillGithub } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc';
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+
 import logo from "../assets/images/airbnb.png";
+import authApi from "../api/authApi";
+import {useDispatch, useSelector} from "react-redux";
+import {login} from "../app/reducers/authSlice";
 
 export default function LoginPage(){
     const navigate = useNavigate();
     const defaultTheme = createTheme();
-
+    const authState = useSelector((state) => state.auth)
+    const dispatch = useDispatch();
     const [input, setInput] = useState({
         username: "",
         password: "",
@@ -20,23 +25,15 @@ export default function LoginPage(){
     const handleInput = (e) => {
         setInput({
             ...input,
-            [e.target.name]: e.target.value, 
+            [e.target.name]: e.target.value,
         })
     }
+    const handleLogin = () => {
 
-    const handleLogin = (e) => {
-        e.preventDefault();
-
-        const logged = JSON.parse(sessionStorage.getItem('user'));
-        if(input.username === logged.username && input.password === logged.password) {
-            sessionStorage.setItem('loggedIn', true);
-            navigate('/');
-        } else {
-            alert('Something wrong!');
-        }
     }
 
-    return(    
+
+    return(
         <ThemeProvider theme={defaultTheme}>
             <Grid container component="main" sx={{ height: '100vh' }}>
                 <CssBaseline />
@@ -67,7 +64,7 @@ export default function LoginPage(){
                     <TextField
                         margin="normal"
                         required
-                        fullWidth      
+                        fullWidth
                         id="username"
                         label="Username"
                         type="text"
@@ -95,7 +92,7 @@ export default function LoginPage(){
                         control={<Checkbox value="remember" color="primary" />}
                         label="Remember me"
                     />
-                    <Button 
+                    <Button
                         fullWidth
                         variant="contained"
                         sx={{ mt: 1, mb: 1, backgroundColor: 'black' }}
@@ -103,9 +100,9 @@ export default function LoginPage(){
                         <FcGoogle style={{marginRight:24}}/>
                         Continue with Google
                     </Button>
-                    <Button 
+                    <Button
                         fullWidth
-                        variant="contained" 
+                        variant="contained"
                         sx={{ mt: 1, mb: 1, backgroundColor: 'black' }}
                     >
                         <AiFillGithub style={{marginRight:24}}/>
