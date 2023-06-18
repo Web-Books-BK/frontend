@@ -8,6 +8,9 @@ import HostPage from "./pages/HostPage";
 import {useSelector} from "react-redux";
 import {useEffect} from "react";
 
+import DetailPage from "./pages/DetailPage";
+import RentedPage from "./pages/RentedPage";
+
 function App() {
     const router = createBrowserRouter([
         {
@@ -26,6 +29,14 @@ function App() {
             path: "/hosts",
             element: <HostPage />,
         },
+        {
+          path: "/rented",
+          element: <RentedPage />,
+      },
+        {
+          path: "/details/*",
+          element: <DetailPage />,
+      },
         {
           path: "/*",
           element: <div>Blank Page</div>
