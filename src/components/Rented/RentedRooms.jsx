@@ -23,7 +23,7 @@ export default function RentedRoom() {
         .catch(err => console.log(err))
     }, [])
 
-    const handleClick = (id) => { 
+    const handleClick = (id) => {
         let path = `/id=${id}`;
         navigate(path);
     }
@@ -43,31 +43,31 @@ export default function RentedRoom() {
 
         axios.delete(`http://localhost:3001/bookedRooms/${id}`, bookedRoomData)
         .then((res) => {
-            
+
             console.log('Room removed successfully');
         })
         .catch((err) => {
             console.log(err);
-        }) 
+        })
     };
 
     const handleUpdate = (id) => {
-        
+
     };
 
     return (
         <>
-            <h2 
+            <h2
                 style={{
-                    width:'100%', float:'left', position:'absolute', 
+                    width:'100%', float:'left', position:'absolute',
                     left:'40px', marginTop:'120px', fontWeight:'normal',
                     borderBottomStyle:'solid'
                 }}
             >
                 All rooms you have rented
             </h2>
-            
-            <div 
+
+            <div
                 style={{
                     display:'flex', flexDirection:'row', float:'left', flexWrap:'wrap',
                     position:'relative', marginTop:'160px', marginLeft:'40px'
@@ -101,7 +101,7 @@ export default function RentedRoom() {
                                             {bookedRoom.title}
                                         </Typography>
                                         <Typography variant="body2" gutterBottom>
-                                            Booking date: {bookedRoom.bookingDate} 
+                                            Booking date: {bookedRoom.bookingDate}
                                         </Typography>
                                         <Typography variant="body2" gutterBottom sx={{fontStyle: "italic"}}>
                                             From: {bookedRoom.fromDate} To: {bookedRoom.toDate}
@@ -119,7 +119,7 @@ export default function RentedRoom() {
                                                 onClick={() => handleUpdate(bookedRoom.id)}
                                             >
                                                 <Construction sx={{marginRight:'8px'}} />
-                                                Update                                      
+                                                Update
                                             </Button>
                                         </Grid>
                                         <Grid item>
@@ -130,9 +130,9 @@ export default function RentedRoom() {
                                                 onClick={() => handleRemove(bookedRoom.id)}
                                             >
                                                 <DeleteIcon sx={{marginRight:'8px'}} />
-                                                Remove                                      
+                                                Remove
                                             </Button>
-                                        </Grid>                 
+                                        </Grid>
                                     </Grid>
                                 </Grid>
                                 <Grid item>

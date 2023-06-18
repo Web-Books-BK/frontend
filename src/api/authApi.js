@@ -2,9 +2,9 @@ import axiosClient from "./axiosClient";
 
 const authApi = {
     login: async (data) => {
-        const response = await axiosClient.post('/login',data);
+        const response = await axiosClient.post('/signin',data);
         console.log("auth api +",response.data);
-        return response.data;
+        return response;
     },
     logout: async () => {
         const response = await axiosClient('logout');
