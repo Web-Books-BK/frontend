@@ -16,6 +16,7 @@ export default function HotelUpload() {
         description: ""
     });
 
+
     const [images, setImages] = useState([]);
     const theme = createTheme({
         spacing: 4,
@@ -62,6 +63,7 @@ export default function HotelUpload() {
         e.target.reset();
     };
 
+
     return (
         <div
             style={{
@@ -75,7 +77,7 @@ export default function HotelUpload() {
                 </Typography>
                 <Typography component="p">You can upload your home and rent it</Typography>
 
-                <form onSubmit={handleUpload} autoComplete='off'>
+                <form  autoComplete='off'>
                 <TextField
                     label="Hotel Name"
                     id="standard-basic"
@@ -87,6 +89,38 @@ export default function HotelUpload() {
                     helperText="Enter your home name"
                     onChange={handleChange}
                 />
+                    <TextField
+                        label="Description"
+                        id="standard-basic"
+                        variant="standard"
+                        name="title"
+                        defaultValue={room.title}
+                        sx={{margin: theme.spacing(2), width: 500}}
+                        autoComplete='off'
+                        helperText="Enter description for your hotel"
+                        onChange={handleChange}
+                    />
+                <Button
+                    id="standard-basic"
+                    variant="contained"
+                    component="label"
+                    name="image"
+                >
+                    Upload Image
+                    <input
+                        type="file"
+                        hidden
+                        multiple
+                        onChange={()=>{
+
+                        }}
+                    />
+                    {/*{images.map((image, index) => (*/}
+                    {/*<div key={index} style={{display:'flex', flexDirection:'row', margin:'10px', float:'left', left:0}}>*/}
+                    {/*    <img src={image.data_url} alt="" width="100" height="100"/>*/}
+                    {/*</div>*/}
+                    {/*))}*/}
+                </Button>
                 <Typography sx={{margin: theme.spacing(2)}}>
                     Maximum upload 10 photos
                 </Typography>
@@ -124,6 +158,7 @@ export default function HotelUpload() {
                 </Button>
 
                     {/*<ImageUploading*/}
+
                 {/*    multiple*/}
                 {/*    value={images}*/}
                 {/*    onChange={onChange}*/}

@@ -32,7 +32,6 @@ export default function LoginPage(){
     const handleLogin = async () => {
         try {
             const res = await authApi.login(input);
-            console.log("login", res)
             if (res.status == 200) {
                 const result = sessionStorage.setItem("token", res.headers['token']);
                 await dispatch(login(res.data.user));
@@ -49,6 +48,9 @@ export default function LoginPage(){
         console.log(input)
     })
 
+    useEffect(()=>{
+        console.log(input);
+    })
 
     return(
         <ThemeProvider theme={defaultTheme}>
@@ -74,10 +76,12 @@ export default function LoginPage(){
                     <div>
                         <img src={logo} alt='LogoAirbnb' width='75px' height='75px' sx={{ m: 1, bgcolor: 'secondary.main', 'maxWidth': '100%', 'maxHeight': '100%'}} />
                     </div>
+
                     <Typography component="h1" variant="h5">
                     Log In
                     </Typography>
                     <Box component="form" sx={{ mt: 1 }}>
+
                     <TextField
                         margin="normal"
                         required
@@ -105,6 +109,17 @@ export default function LoginPage(){
                         value={input.password}
                         onChange={handleInput}
                     />
+                    {wrongInfo ?
+                        <>
+                            <p
+                                style={{
+                                    color:'red',
+                                }}
+                            >Tài khoản hoặc mật khẩu không chính xác</p>
+                        </>
+                        :
+                        <></>
+                    }
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
                         label="Remember me"
@@ -126,6 +141,7 @@ export default function LoginPage(){
                         Continue with Github
                     </Button>
                     <Button
+
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2, backgroundColor: '#ef405f' }}

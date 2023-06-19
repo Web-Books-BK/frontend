@@ -5,6 +5,7 @@ const axiosClient = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
     headers: {
         'content-type': 'application/json',
+        'Cache-Control':'no-cache'
     },
 });
 
@@ -17,7 +18,7 @@ axiosClient.interceptors.request.use((config)=>{
 })
 
 axiosClient.interceptors.response.use((response)=>{
-    console.log("axios client" , response)
+    // console.log("axios client" , response)
     return response;
 })
 

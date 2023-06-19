@@ -33,12 +33,14 @@ export default function Rooms() {
                 })
         }
         fetchData()
+
     }, [])
 
     return (
         <div style={{
             margin: '232px 50px 80px',
         }}
+
         >
             <div style={{
                 display:'flex', flexDirection:'row', gap:'40px', flexWrap: 'wrap'
@@ -63,6 +65,7 @@ export default function Rooms() {
                                 fontSize: '20px', lineHeight: '32px', fontWeight: '600',
                                 marginBottom:'5px', cursor:'pointer'
                             }}
+
                             >
                                 {room.name}
                             </div>
