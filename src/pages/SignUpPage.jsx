@@ -13,7 +13,7 @@ export default function SignUpPage() {
     const defaultTheme = createTheme();
 
     const [input, setInput] = useState({
-        username: "",
+        email: "",
         password: "",
     })
 

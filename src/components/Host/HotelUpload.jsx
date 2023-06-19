@@ -88,17 +88,6 @@ export default function HotelUpload() {
                     helperText="Enter your home name"
                     onChange={handleChange}
                 />
-                    <TextField
-                        label="Description"
-                        id="standard-basic"
-                        variant="standard"
-                        name="title"
-                        defaultValue={room.title}
-                        sx={{margin: theme.spacing(2), width: 500}}
-                        autoComplete='off'
-                        helperText="Enter description for your hotel"
-                        onChange={handleChange}
-                    />
                 <Button
                     id="standard-basic"
                     variant="contained"

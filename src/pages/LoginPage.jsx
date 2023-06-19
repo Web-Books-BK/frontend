@@ -33,14 +33,14 @@ export default function LoginPage(){
         try {
             const res = await authApi.login(input);
             console.log(res.status)
-            if (res.status == 200) {
+            if (res.status === 200) {
                 const result = sessionStorage.setItem("token", res.headers['token']);
                 await dispatch(login(res.data.user));
                 setWrongInfo(false);
                 navigate("/");
             }
         }catch (e){
-            if (e.response.status == 401){
+            if (e.response.status === 401){
                 setWrongInfo(true);
             }
         }
@@ -85,11 +85,11 @@ export default function LoginPage(){
                         required
                         fullWidth
                         id="email"
-                        label="email"
+                        label="Email"
                         type="text"
                         name="email"
                         autoComplete="email"
-                        helperText="Enter your username"
+                        helperText="Enter your email"
                         autoFocus
                         value={input.email}
                         onChange={handleInput}
