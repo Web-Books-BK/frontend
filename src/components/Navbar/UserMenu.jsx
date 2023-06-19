@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useState, useRef } from "react";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -10,6 +10,8 @@ import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import { useNavigate } from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {logout} from "../../app/reducers/authSlice";
 
 const options = ["Log in", "Sign up", "Airbnb your home", "Rented rooms", "Log out"];
 
@@ -17,9 +19,12 @@ export default function UserMenu() {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  
-  let navigate = useNavigate(); 
-  const handleClick = () => { 
+  const dispatch = useDispatch();
+  const authState = useSelector((state) => state.auth)
+
+
+    let navigate = useNavigate();
+  const handleClick = () => {
     let path = '';
     if(options[selectedIndex] === 'Log in') {
         path = '/login';
@@ -34,7 +39,8 @@ export default function UserMenu() {
         path = '/rented'
     }
     if(options[selectedIndex] === 'Log out') {
-        sessionStorage.removeItem('loggedIn');
+        sessionStorage.removeItem('token');
+        dispatch(logout())
         path = '/';
     }
     navigate(path);
@@ -57,6 +63,9 @@ export default function UserMenu() {
     setOpen(false);
   };
 
+  useEffect(()=>{
+
+  },[authState])
   return (
     <>
         <ButtonGroup
@@ -72,7 +81,7 @@ export default function UserMenu() {
                 }}
                 onClick={handleClick}
             >
-                {options[selectedIndex]}
+                {options[selectedIndex] }
             </Button>
             <Button
                 size="small"
@@ -107,7 +116,7 @@ export default function UserMenu() {
                                 {options.map((option, index) => (
                                     <MenuItem
                                         key={option}
-                                        disabled={sessionStorage['loggedIn'] ? index >= options.length : index >= 2}
+                                        disabled={sessionStorage['token'] ? index <= 1 : index >= 2}
                                         selected={index === selectedIndex}
                                         onClick={(event) => handleMenuItemClick(event, index)}
                                         sx={{fontSize: '0.9rem', position:'relative', zIndex:2}}
