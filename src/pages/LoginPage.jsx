@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Button, CssBaseline, TextField, FormControlLabel, Checkbox} from '@mui/material';
 import { Paper, Grid, Box, Typography} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -13,12 +13,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {login} from "../app/reducers/authSlice";
 
 export default function LoginPage(){
+    const [wrongInfo, setWrongInfo] = useState(false);
     const navigate = useNavigate();
     const defaultTheme = createTheme();
     const authState = useSelector((state) => state.auth)
     const dispatch = useDispatch();
     const [input, setInput] = useState({
-        username: "",
+        email: "",
         password: "",
     })
 
@@ -28,9 +29,25 @@ export default function LoginPage(){
             [e.target.name]: e.target.value,
         })
     }
-    const handleLogin = () => {
-
+    const handleLogin = async () => {
+        try {
+            const res = await authApi.login(input);
+            console.log("login", res)
+            if (res.status == 200) {
+                const result = sessionStorage.setItem("token", res.headers['token']);
+                await dispatch(login(res.data.user));
+                setWrongInfo(false);
+                navigate("/");
+            }
+        }catch (e){
+            if (e.response.status == 401){
+                setWrongInfo(true);
+            }
+        }
     }
+    useEffect(()=> {
+        console.log(input)
+    })
 
 
     return(
@@ -60,19 +77,19 @@ export default function LoginPage(){
                     <Typography component="h1" variant="h5">
                     Log In
                     </Typography>
-                    <Box component="form" onSubmit={handleLogin} sx={{ mt: 1 }}>
+                    <Box component="form" sx={{ mt: 1 }}>
                     <TextField
                         margin="normal"
                         required
                         fullWidth
-                        id="username"
-                        label="Username"
+                        id="email"
+                        label="email"
                         type="text"
-                        name="username"
-                        autoComplete="username"
+                        name="email"
+                        autoComplete="email"
                         helperText="Enter your username"
                         autoFocus
-                        value={input.username}
+                        value={input.email}
                         onChange={handleInput}
                     />
                     <TextField
@@ -109,7 +126,6 @@ export default function LoginPage(){
                         Continue with Github
                     </Button>
                     <Button
-                        type="submit"
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2, backgroundColor: '#ef405f' }}

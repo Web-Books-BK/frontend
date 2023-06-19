@@ -57,15 +57,15 @@ export default function HotelUpload() {
         .then((res) => {
             console.log(res.status, res.data.token);
         });
-    
+
         // Reset form fields
         e.target.reset();
     };
 
     return (
-        <div 
+        <div
             style={{
-                position:'relative', float:'right', right:40, width:'40%', 
+                position:'relative', float:'right', right:40, width:'40%',
                 boxShadow:'5px 5px 5px 5px #ccc', margin:'160px auto', padding:'20px'
             }}
         >
@@ -90,42 +90,75 @@ export default function HotelUpload() {
                 <Typography sx={{margin: theme.spacing(2)}}>
                     Maximum upload 10 photos
                 </Typography>
-                <ImageUploading
-                    multiple
-                    value={images}
-                    onChange={onChange}
-                    maxNumber={maxNumber}
-                    dataURLKey="data_url"
-                    acceptType={["jpg", "png"]}
+                <Button
+                    variant="contained"
+                    component="label"
                 >
-                    {({
-                    imageList,
-                    onImageUpload,
-                    onImageUpdate,
-                    onImageRemove,
-                    dragProps
-                    }) => (
-                    // write your building UI
-                    <div>
-                        <Button 
-                            type="file"
-                            variant="contained"
-                            sx={{
-                                margin: theme.spacing(1,2), backgroundColor: '#ef405f', display:'flex'
-                            }}
-                            onClick={onImageUpload}
-                            {...dragProps}
-                        >
-                            Choose File
-                        </Button>
-                        {imageList.map((image, index) => (
-                        <div key={index} style={{display:'flex', flexDirection:'row', margin:'10px', float:'left', left:0}}>
-                            <img src={image.data_url} alt="" width="100" height="100"/>
-                        </div>
-                        ))}
-                    </div>
-                    )}
-                </ImageUploading>
+                    Upload File
+                    <input
+                        type="file"
+                        hidden
+                        onChange={async (e)=>{
+                            console.log(e.target.files)
+                            try {
+                                const result = await axios('https://freeimage.host/api/1/upload?key=6d207e02198a847aa98d0a2a901485a5',
+                                    {
+                                        "source": e.target.files,
+                                },{
+                                    headers: {
+                                        'Content-Type': "multipart/form-data"
+                                    }
+                                }).then((res)=>{
+                                    console.log(res)
+                                })
+                            }catch (e){
+                                console.log(e)
+                            }
+
+                        }}
+                    />
+                    {/*{images.map((image) =>{*/}
+                    {/*    <img src={image} />*/}
+                    {/*})}*/}
+
+                </Button>
+
+                    {/*<ImageUploading*/}
+                {/*    multiple*/}
+                {/*    value={images}*/}
+                {/*    onChange={onChange}*/}
+                {/*    maxNumber={maxNumber}*/}
+                {/*    dataURLKey="data_url"*/}
+                {/*    acceptType={["jpg", "png"]}*/}
+                {/*>*/}
+                {/*    {({*/}
+                {/*    imageList,*/}
+                {/*    onImageUpload,*/}
+                {/*    onImageUpdate,*/}
+                {/*    onImageRemove,*/}
+                {/*    dragProps*/}
+                {/*    }) => (*/}
+                {/*    // write your building UI*/}
+                {/*    <div>*/}
+                {/*        <Button */}
+                {/*            type="file"*/}
+                {/*            variant="contained"*/}
+                {/*            sx={{*/}
+                {/*                margin: theme.spacing(1,2), backgroundColor: '#ef405f', display:'flex'*/}
+                {/*            }}*/}
+                {/*            onClick={onImageUpload}*/}
+                {/*            {...dragProps}*/}
+                {/*        >*/}
+                {/*            Choose File*/}
+                {/*        </Button>*/}
+                {/*        {imageList.map((image, index) => (*/}
+                {/*        <div key={index} style={{display:'flex', flexDirection:'row', margin:'10px', float:'left', left:0}}>*/}
+                {/*            <img src={image.data_url} alt="" width="100" height="100"/>*/}
+                {/*        </div>*/}
+                {/*        ))}*/}
+                {/*    </div>*/}
+                {/*    )}*/}
+                {/*</ImageUploading>*/}
                 <TextField
                     label="Place"
                     id="standard-basic"
@@ -173,7 +206,7 @@ export default function HotelUpload() {
                     variant="contained"
                     sx={{margin: theme.spacing(6,2), backgroundColor: '#ef405f', display:'flex'}}
                 >
-                    Upload 
+                    Upload
                     <SendIcon sx={{marginLeft: theme.spacing(3)}} />
                 </Button>
                 </form>
