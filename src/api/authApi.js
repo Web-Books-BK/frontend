@@ -7,7 +7,7 @@ const authApi = {
     },
     logout: async () => {
         const response = await axiosClient('logout');
-        return response.data
+        return response.data;
     }
 }
 

@@ -1,9 +1,10 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider,useNavigate, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import HostPage from "./pages/HostPage";
+import {useSelector} from "react-redux";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 

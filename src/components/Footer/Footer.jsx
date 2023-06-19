@@ -42,7 +42,7 @@ export default function DetailRoom() {
                 <Link to={''} style={{marginRight:24}} className="contact">
                     <BsFacebook size={32}/>
                 </Link>
-                <Link to={''} style={{marginRight:24}} className="contact">
+                <Link to={'https://github.com/Web-Books-BK'} style={{marginRight:24}} className="contact">
                     <AiFillGithub size={32}/>
                 </Link>
             </div>

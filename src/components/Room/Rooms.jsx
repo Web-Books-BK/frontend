@@ -1,19 +1,17 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Rooms.css"
 import hotelApi from "../../api/hotelApi";
-import {Button} from "@mui/material";
 
 export default function Rooms() {
     const [rooms, setRooms] = useState([]);
 
     let navigate = useNavigate();
 
-
     const handleClick = (id) => {
-        let path = `/details/id=${id}`;
+        let path = `/rooms/${id}`;
         navigate(path);
+
     }
 
     useEffect( () => {
@@ -52,12 +50,11 @@ export default function Rooms() {
                             style={{borderRadius:'20px'}}
                         >
                             <img
-                                src={room.images[0]? room.images[0] : null} alt={room.title} width={250} height={250}
+                                src={room.images && room.images[0]? room.images[0] : null} alt={room.name} width={250} height={250}
                                 style={{
                                     borderRadius:'20px', cursor:'pointer',  boxShadow:'5px 5px 10px #ccc'
                                 }}
                                 className="img_room"
-                                // onClick={() => handleClick(room.id)}
                             />
                         </div>
                         <div style={{marginTop:'10px', marginLeft:'10px'}}>
