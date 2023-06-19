@@ -32,7 +32,6 @@ export default function LoginPage(){
     const handleLogin = async () => {
         try {
             const res = await authApi.login(input);
-            console.log(res.status)
             if (res.status == 200) {
                 const result = sessionStorage.setItem("token", res.headers['token']);
                 await dispatch(login(res.data.user));
@@ -44,8 +43,10 @@ export default function LoginPage(){
                 setWrongInfo(true);
             }
         }
-
     }
+    useEffect(()=> {
+        console.log(input)
+    })
 
     useEffect(()=>{
         console.log(input);
@@ -79,7 +80,8 @@ export default function LoginPage(){
                     <Typography component="h1" variant="h5">
                     Log In
                     </Typography>
-                    <Box component="form"  sx={{ mt: 1 }}>
+                    <Box component="form" sx={{ mt: 1 }}>
+
                     <TextField
                         margin="normal"
                         required
@@ -139,7 +141,7 @@ export default function LoginPage(){
                         Continue with Github
                     </Button>
                     <Button
-                        // type="submit"
+
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2, backgroundColor: '#ef405f' }}
