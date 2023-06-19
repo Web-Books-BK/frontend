@@ -16,23 +16,33 @@ export default function Rooms() {
 
     useEffect( () => {
         async function fetchData(){
-            return await hotelApi.getListHotel();
+            return await hotelApi.getListHotel()
+                .then((res)=>{
+                    try {
+                        console.log("rooms", res)
+                        if(res.status == 200){
+                            setRooms(res.data.data);
+                            console.log(res.data.data);
+                        }
+                    }catch (e){
+
+                    }
+
+                })
         }
         fetchData()
-            .then((res)=>{
-                setRooms(res.data);
-                console.log(res.data)
-            })
+
     }, [])
 
     return (
         <div style={{
-                margin: '232px 50px 80px',
-            }}
+            margin: '232px 50px 80px',
+        }}
+
         >
             <div style={{
-                    display:'flex', flexDirection:'row', gap:'40px', flexWrap: 'wrap'
-                }}
+                display:'flex', flexDirection:'row', gap:'40px', flexWrap: 'wrap'
+            }}
             >
                 {rooms && rooms.map((room, index) => (
                     <div key={index} onClick={() => handleClick(room.id)}>
@@ -49,16 +59,17 @@ export default function Rooms() {
                         </div>
                         <div style={{marginTop:'10px', marginLeft:'10px'}}>
                             <div style={{
-                                    fontSize: '20px', lineHeight: '32px', fontWeight: '600',
-                                    marginBottom:'5px', cursor:'pointer'
-                                }}
+                                fontSize: '20px', lineHeight: '32px', fontWeight: '600',
+                                marginBottom:'5px', cursor:'pointer'
+                            }}
+
                             >
                                 {room.name}
                             </div>
                             <div style={{
-                                    fontSize: '18px', fontWeight: '400', lineHeight: '24px',
-                                    marginBottom:'5px', cursor:'pointer'
-                                }}
+                                fontSize: '18px', fontWeight: '400', lineHeight: '24px',
+                                marginBottom:'5px', cursor:'pointer'
+                            }}
                             >
                                 {room.address}
                                 <span style={{marginLeft:'5px', fontStyle:'italic'}}>

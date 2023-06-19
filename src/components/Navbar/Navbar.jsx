@@ -14,17 +14,17 @@ export default function Navbar() {
     }
 
     return (
-        <div 
+        <div
             style={{
-                height:'80px', width:'100%', display:'flex',top: '0px', 
+                height:'80px', width:'100%', display:'flex',top: '0px',
                 background: '#fff', position:'fixed', zIndex:2,
                 borderBottom:'1px solid #ccc'
             }}
 
         >
             <div style={{margin:'auto 20px'}}>
-                <img 
-                    src={logo} alt="logo" height='40px' width='150px' 
+                <img
+                    src={logo} alt="logo" height='40px' width='150px'
                     style={{cursor:'pointer'}}
                     onClick={() => handleClick('/')}
                 />
@@ -33,18 +33,18 @@ export default function Navbar() {
             <Search />
 
             <div style={{
-                    alignItems:'center', justifyContent:'center', margin:'auto', 
+                    alignItems:'center', justifyContent:'center', margin:'auto',
                     display:'flex', flexDirection:'row', rowGap:'5px'
                 }}
-            >            
-                <div 
+            >
+                <div
                     className="airbnb_home"
                     style={{fontSize:'1rem', cursor:'pointer', padding: '10px'}}c
                     onClick={() => handleClick('/hosts')}
                 >
                     Airbnb your home
                 </div>
-                <div 
+                <div
                     className="language"
                     style={{padding:5,marginLeft:"20px", marginRight:"20px", cursor:'pointer'}}
                 >
@@ -53,8 +53,8 @@ export default function Navbar() {
                 <div>
                     <UserMenu />
                 </div>
-            </div>    
-        </div>     
+            </div>
+        </div>
     )
 }
 

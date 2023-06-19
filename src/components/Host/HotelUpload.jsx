@@ -42,26 +42,27 @@ export default function HotelUpload() {
         });
     };
 
-    // const handleUpload = (e) => {
-    //     e.preventDefault();
-    //     const roomData = {
-    //         id: room.id,
-    //         title: room.title,
-    //         image: room.image,
-    //         place: room.place,
-    //         price: room.price,
-    //         category: room.category,
-    //         description: room.description
-    //     };
-    //
-    //     axios.post("http://localhost:3001/rooms", roomData)
-    //     .then((res) => {
-    //         console.log(res.status, res.data.token);
-    //     });
-    //
-    //     // Reset form fields
-    //     e.target.reset();
-    // };
+    const handleUpload = (e) => {
+        e.preventDefault();
+        const roomData = {
+            id: room.id,
+            title: room.title,
+            image: room.image,
+            place: room.place,
+            price: room.price,
+            category: room.category,
+            description: room.description
+        };
+
+        axios.post("http://localhost:3001/rooms", roomData)
+        .then((res) => {
+            console.log(res.status, res.data.token);
+        });
+
+        // Reset form fields
+        e.target.reset();
+    };
+
 
     return (
         <div
@@ -112,7 +113,41 @@ export default function HotelUpload() {
                 <Typography sx={{margin: theme.spacing(2)}}>
                     Maximum upload 10 photos
                 </Typography>
-                {/*<ImageUploading*/}
+                <Button
+                    variant="contained"
+                    component="label"
+                >
+                    Upload File
+                    <input
+                        type="file"
+                        hidden
+                        onChange={async (e)=>{
+                            console.log(e.target.files)
+                            try {
+                                const result = await axios('https://freeimage.host/api/1/upload?key=6d207e02198a847aa98d0a2a901485a5',
+                                    {
+                                        "source": e.target.files,
+                                },{
+                                    headers: {
+                                        'Content-Type': "multipart/form-data"
+                                    }
+                                }).then((res)=>{
+                                    console.log(res)
+                                })
+                            }catch (e){
+                                console.log(e)
+                            }
+
+                        }}
+                    />
+                    {/*{images.map((image) =>{*/}
+                    {/*    <img src={image} />*/}
+                    {/*})}*/}
+
+                </Button>
+
+                    {/*<ImageUploading*/}
+
                 {/*    multiple*/}
                 {/*    value={images}*/}
                 {/*    onChange={onChange}*/}
@@ -129,7 +164,7 @@ export default function HotelUpload() {
                 {/*    }) => (*/}
                 {/*    // write your building UI*/}
                 {/*    <div>*/}
-                {/*        <Button*/}
+                {/*        <Button */}
                 {/*            type="file"*/}
                 {/*            variant="contained"*/}
                 {/*            sx={{*/}

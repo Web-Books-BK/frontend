@@ -3,7 +3,7 @@ import axiosClient from "./axiosClient";
 const hotelApi = {
     getListHotel: async () => {
         const response = await axiosClient.get('/rooms');
-        return response.data;
+        return response;
     },
     getDetailHotel: async (id) => {
         const response = await axiosClient.get(`/rooms/${id}`);
