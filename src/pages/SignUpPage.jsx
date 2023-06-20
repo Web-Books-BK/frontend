@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Button, CssBaseline, TextField, FormControlLabel, Checkbox} from '@mui/material';
 import { Paper, Grid, Box, Typography} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -30,16 +30,13 @@ export default function SignUpPage() {
 
     const handleSignUp = async () => {
         try {
-            const res = await authApi.signup(input);
-            if (res.status === 200) {
-                sessionStorage.setItem("id", res.data.user.id)
-                
-                navigate("/");
-            }
+            const result = await authApi.signup(input)
+                .then((res)=>{
+                    console.log(res)
+                    navigate('/login');
+                })
         }catch (e){
-            if (e.response.status === 401){
-                
-            }
+            console.log(e)
         }
         navigate('/login');
     }
@@ -75,11 +72,11 @@ export default function SignUpPage() {
                     <Typography component="h1" variant="h4">
                     Sign Up
                     </Typography>
-                    <Box component="form" onSubmit={handleSignUp} sx={{ mt: 1 }}>
+                    <Box component="form" sx={{ mt: 1 }}>
                     <TextField
                         margin="normal"
                         required
-                        fullWidth      
+                        fullWidth
                         id="email"
                         label="Email"
                         type="text"
@@ -93,7 +90,7 @@ export default function SignUpPage() {
                     <TextField
                         margin="normal"
                         required
-                        fullWidth      
+                        fullWidth
                         id="fullName"
                         label="Full Name"
                         type="text"
@@ -107,7 +104,7 @@ export default function SignUpPage() {
                     <TextField
                         margin="normal"
                         required
-                        fullWidth      
+                        fullWidth
                         id="username"
                         label="Username"
                         type="text"
@@ -121,7 +118,7 @@ export default function SignUpPage() {
                     <TextField
                         margin="normal"
                         required
-                        fullWidth      
+                        fullWidth
                         id="address"
                         label="Address"
                         type="text"
@@ -135,7 +132,7 @@ export default function SignUpPage() {
                     <TextField
                         margin="normal"
                         required
-                        fullWidth      
+                        fullWidth
                         id="phone"
                         label="Phone Number"
                         type="text"
