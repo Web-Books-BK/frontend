@@ -46,13 +46,6 @@ export default function LoginPage(){
             }
         }
     }
-    useEffect(()=> {
-        console.log(input)
-    })
-
-    useEffect(()=>{
-        console.log(input);
-    })
 
     return(
         <ThemeProvider theme={defaultTheme}>

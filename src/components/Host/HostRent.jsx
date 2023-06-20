@@ -4,7 +4,6 @@ import { Grid, Paper, Typography, ButtonBase, Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Construction from '@mui/icons-material/Construction';
 import { styled } from '@mui/material/styles';
-import axios from "axios";
 import hotelApi from "../../api/hotelApi";
 
 const Img = styled('img')({

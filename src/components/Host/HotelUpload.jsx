@@ -99,8 +99,6 @@ export default function HotelUpload() {
                     onChange={handleChange}
                 />
 
-
-
                 <Typography sx={{margin: theme.spacing(2)}}>
                     Maximum upload 10 photos
                 </Typography>

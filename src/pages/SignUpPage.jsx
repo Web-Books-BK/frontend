@@ -7,14 +7,20 @@ import { FcGoogle } from 'react-icons/fc';
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/images/airbnb.png";
+import authApi from "../api/authApi";
 
 export default function SignUpPage() {
     const navigate = useNavigate();
     const defaultTheme = createTheme();
 
     const [input, setInput] = useState({
-        email: "",
-        password: "",
+        "userName": "",
+        "fullName": "",
+        "email": "",
+        "password": "",
+        "phone": "",
+        "address": "",
+        "role": 1
     })
 
     const handleInput = (e) => {
@@ -30,6 +36,21 @@ export default function SignUpPage() {
         sessionStorage.setItem('user', JSON.stringify(input));
         sessionStorage.setItem('loggedIn', true);
         navigate('/');
+    }
+
+    const handleSignUp = async () => {
+        try {
+            const res = await authApi.signup(input);
+            if (res.status === 200) {
+                sessionStorage.setItem("id", res.data.user.id)
+                
+                navigate("/");
+            }
+        }catch (e){
+            if (e.response.status === 401){
+                
+            }
+        }
     }
 
     return(
@@ -68,6 +89,34 @@ export default function SignUpPage() {
                         margin="normal"
                         required
                         fullWidth      
+                        id="email"
+                        label="Email"
+                        type="text"
+                        name="email"
+                        autoComplete="email"
+                        helperText="Enter your email"
+                        autoFocus
+                        value={input.email}
+                        onChange={handleInput}
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth      
+                        id="fullName"
+                        label="fullName"
+                        type="text"
+                        name="fullName"
+                        autoComplete="fullName"
+                        helperText="Enter your full name"
+                        autoFocus
+                        value={input.fullName}
+                        onChange={handleInput}
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth      
                         id="username"
                         label="Username"
                         type="text"
@@ -75,7 +124,35 @@ export default function SignUpPage() {
                         autoComplete="username"
                         helperText="Enter your username"
                         autoFocus
-                        value={input.username}
+                        value={input.userName}
+                        onChange={handleInput}
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth      
+                        id="address"
+                        label="Address"
+                        type="text"
+                        name="address"
+                        autoComplete="address"
+                        helperText="Enter your address"
+                        autoFocus
+                        value={input.address}
+                        onChange={handleInput}
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth      
+                        id="phone"
+                        label="Phone Number"
+                        type="text"
+                        name="phone"
+                        autoComplete="phone"
+                        helperText="Enter your phone number"
+                        autoFocus
+                        value={input.phone}
                         onChange={handleInput}
                     />
                     <TextField
@@ -117,7 +194,7 @@ export default function SignUpPage() {
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2, backgroundColor: '#ef405f' }}
-                        onClickCapture={handleSubmit}
+                        onClickCapture={handleSignUp}
                         
                     >
                         Sign Up

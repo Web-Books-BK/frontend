@@ -8,3 +8,8 @@
     object-fit: cover;
     transition: all 0.2s linear;
 }
+
+/* Mobile */
+@media only screen and (max-width: 768px) {
+    
+}
