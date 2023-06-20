@@ -7,7 +7,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-import logo from "../assets/images/airbnb.png";
+import logo from "../assets/images/logo.png";
 import authApi from "../api/authApi";
 import {useDispatch, useSelector} from "react-redux";
 import {login} from "../app/reducers/authSlice";
@@ -69,10 +69,10 @@ export default function LoginPage(){
                     }}
                 >
                     <div>
-                        <img src={logo} alt='LogoAirbnb' width='75px' height='75px' sx={{ m: 1, bgcolor: 'secondary.main', 'maxWidth': '100%', 'maxHeight': '100%'}} />
+                        <img src={logo} alt='LogoBooking' width='160px' height='80px' sx={{ m: 1, bgcolor: 'secondary.main', 'maxWidth': '100%', 'maxHeight': '100%'}} />
                     </div>
 
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h1" variant="h4">
                     Log In
                     </Typography>
                     <Box component="form" sx={{ mt: 1 }}>

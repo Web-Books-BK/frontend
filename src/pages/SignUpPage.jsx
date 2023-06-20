@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import { Button, CssBaseline, TextField, FormControlLabel, Checkbox} from '@mui/material';
 import { Paper, Grid, Box, Typography} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { AiFillGithub } from 'react-icons/ai';
-import { FcGoogle } from 'react-icons/fc';
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/images/airbnb.png";
+import logo from "../assets/images/logo.png";
 import authApi from "../api/authApi";
 
 export default function SignUpPage() {
@@ -30,12 +28,6 @@ export default function SignUpPage() {
         })
     }
 
-    // Store value in sessionStorage
-    const handleSubmit = (e) => {
-
-        navigate('/login');
-    }
-
     const handleSignUp = async () => {
         try {
             const res = await authApi.signup(input);
@@ -49,6 +41,7 @@ export default function SignUpPage() {
                 
             }
         }
+        navigate('/login');
     }
 
     return(
@@ -77,12 +70,12 @@ export default function SignUpPage() {
                     }}
                 >
                     <div>
-                        <img src={logo} alt='LogoAirbnb' width='75px' height='75px' sx={{ m: 1, bgcolor: 'secondary.main', 'maxWidth': '100%', 'maxHeight': '100%'}} />
+                        <img src={logo} alt='LogoBooking' width='160px' height='80px' sx={{ m: 1, bgcolor: 'secondary.main', 'maxWidth': '100%', 'maxHeight': '100%'}} />
                     </div>
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h1" variant="h4">
                     Sign Up
                     </Typography>
-                    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={handleSignUp} sx={{ mt: 1 }}>
                     <TextField
                         margin="normal"
                         required
@@ -102,7 +95,7 @@ export default function SignUpPage() {
                         required
                         fullWidth      
                         id="fullName"
-                        label="fullName"
+                        label="Full Name"
                         type="text"
                         name="fullName"
                         autoComplete="fullName"
@@ -118,7 +111,7 @@ export default function SignUpPage() {
                         id="username"
                         label="Username"
                         type="text"
-                        name="username"
+                        name="userName"
                         autoComplete="username"
                         helperText="Enter your username"
                         autoFocus
