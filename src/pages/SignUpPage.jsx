@@ -30,16 +30,12 @@ export default function SignUpPage() {
         })
     }
 
-    // Store value in sessionStorage
-    const handleSubmit = (e) => {
-        navigate('/login');
-    }
-
     const handleSignUp = async () => {
         try {
             const result = await authApi.signup(input)
                 .then((res)=>{
                     console.log(res)
+                    navigate('/login');
                 })
         }catch (e){
             console.log(e)
@@ -77,7 +73,7 @@ export default function SignUpPage() {
                     <Typography component="h1" variant="h5">
                     Sign Up
                     </Typography>
-                    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                    <Box component="form" sx={{ mt: 1 }}>
                     <TextField
                         margin="normal"
                         required
