@@ -14,7 +14,7 @@ const Img = styled('img')({
     maxHeight: '100%',
 });
 
-export default function HotelRent() {
+export default function HotelRent({reload}) {
     const navigate = useNavigate();
     const [myRooms, setMyRooms] = useState([
         {
@@ -45,7 +45,7 @@ export default function HotelRent() {
                 })
         }
         getMyRooms()
-    }, [])
+    }, [reload])
 
     const handleClick = (id) => {
         let path = `/id=${id}`;
@@ -53,14 +53,19 @@ export default function HotelRent() {
     }
 
     const handleRemove = async (id) => {
-        const result = await hotelApi.deleteMyHotel(id)
-            .then(async (res)=>{
-                console.log(res);
-                const result = await hotelApi.getListMyHotel()
-                    .then((res)=>{
-                        setMyRooms(res.data.data);
-                    })
-            })
+        try {
+            const result = await hotelApi.deleteMyHotel(id)
+                .then(async (res)=>{
+                    console.log(res);
+                    const result = await hotelApi.getListMyHotel()
+                        .then((res)=>{
+                            setMyRooms(res.data.data);
+                        })
+                })
+        }catch (e){
+            console.log(e)
+        }
+
 
     };
 
@@ -114,7 +119,7 @@ export default function HotelRent() {
                                             {room.name}
                                         </Typography>
                                         <Typography variant="body2" gutterBottom>
-                                            Upload date: {room.uploadDate}
+                                            Upload date: {room.createAt}
                                         </Typography>
                                         <Typography variant="body2" color="text.secondary">
                                             {room.address}
@@ -147,7 +152,7 @@ export default function HotelRent() {
                                 </Grid>
                                 <Grid item>
                                     <Typography variant="subtitle1" component="div">
-                                        {room.price}
+                                        {room.price}$
                                     </Typography>
                                 </Grid>
                             </Grid>

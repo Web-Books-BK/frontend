@@ -5,8 +5,9 @@ import { createTheme } from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send';
 import ImageUploading from "react-images-uploading";
 import { categories } from "../Category/Categories"
-export default function HotelUpload() {
-    const [room, setRoom] = useState({
+import hotelApi from "../../api/hotelApi";
+export default function HotelUpload({reload, setReload}) {
+    const [roomInfo, setRoomInfo] = useState({
         room: {
             name: "",
             description: "",
@@ -14,8 +15,8 @@ export default function HotelUpload() {
             livingRoom: 0,
             bedRoom: 0,
             toilet: 0,
-            wifi: true,
-            swimmingPool: true,
+            wifi: false,
+            swimmingPool: false,
             price: "",
             address: "",
             phone: "",
@@ -34,43 +35,36 @@ export default function HotelUpload() {
         getOptionLabel: (option) => option.label,
     };
 
-    const maxNumber = 10;
-    const onChange = (imageList, addUpdateIndex) => {
-        // submit data
-        console.log(imageList, addUpdateIndex);
-        setImages(imageList);
-    };
 
-    const handleChange = (e) => {
-        const value = e.target.value;
-        setRoom({
-            ...room,
-            [e.target.name]: value
-        });
-    };
 
-    const handleUpload = (e) => {
-        e.preventDefault();
-        const roomData = {
-            id: room.id,
-            title: room.title,
-            image: room.image,
-            place: room.place,
-            price: room.price,
-            category: room.category,
-            description: room.description
-        };
+    const handleUpload = async () => {
+        // setRoomInfo({
+        //     room: {
+        //         ...roomInfo.room,
+        //         images: images
+        //     }
+        // });
+        try {
+            const result = await hotelApi.uploadMyHotel(roomInfo)
+                .then((res)=>{
+                    console.log(res)
+                    setReload(!reload);
+                })
+        }catch (e){
+            console.log(e)
+        }
 
-        axios.post("http://localhost:3001/rooms", roomData)
-        .then((res) => {
-            console.log(res.status, res.data.token);
-        });
-
-        // Reset form fields
-        e.target.reset();
     };
     useEffect(()=>{
-        console.log(images)
+        setRoomInfo({
+            room: {
+                ...roomInfo.room,
+                images: images
+            }
+        });
+    },[images])
+    useEffect(()=>{
+        console.log(roomInfo);
     })
 
     return (
@@ -91,12 +85,19 @@ export default function HotelUpload() {
                     label="Hotel Name"
                     id="standard-basic"
                     variant="standard"
-                    name="title"
-                    defaultValue={room.title}
+                    name="name"
+                    defaultValue={roomInfo.title}
                     sx={{margin: theme.spacing(2), width: 500}}
                     autoComplete='off'
                     helperText="Enter your home name"
-                    onChange={handleChange}
+                    onChange={(e)=> {
+                        setRoomInfo({
+                            room: {
+                                ...roomInfo.room,
+                                name: e.target.value
+                            }
+                        });
+                    }}
                 />
 
 
@@ -125,11 +126,17 @@ export default function HotelUpload() {
                                             'Content-Type': "multipart/form-data",
                                             'Authorization': "Bearer public_W142hze9v1BzSKxmiavBDcbzxenQ"
                                         }
-                                }).then((res)=>{
+                                }).then( (res)=>{
                                     const newImage = res.data.files[0].fileUrl;
                                     setImages(prevImage =>
                                         [...prevImage,newImage]
                                     )
+                                    setRoomInfo({
+                                        room: {
+                                            ...roomInfo.room,
+                                            images: images
+                                        }
+                                    });
                                 })
                             }catch (e){
                                 console.log(e)
@@ -151,11 +158,18 @@ export default function HotelUpload() {
                     id="standard-basic"
                     variant="standard"
                     name="address"
-                    defaultValue={room.place}
+                    defaultValue={roomInfo.place}
                     sx={{margin: theme.spacing(2), width: 500}}
                     autoComplete='off'
                     helperText="Enter your country"
-                    onChange={handleChange}
+                    onChange={(e)=> {
+                        setRoomInfo({
+                            room: {
+                                ...roomInfo.room,
+                                address: e.target.value
+                            }
+                        });
+                    }}
                 />
                     <TextField
                         id="outlined-number"
@@ -168,6 +182,14 @@ export default function HotelUpload() {
                         helperText="Enter your living room number"
                         InputLabelProps={{
                             shrink: true,
+                        }}
+                        onChange={(e)=> {
+                            setRoomInfo({
+                                room: {
+                                    ...roomInfo.room,
+                                    livingRoom: Number(e.target.value)
+                                }
+                            });
                         }}
                     />
                     <TextField
@@ -182,6 +204,14 @@ export default function HotelUpload() {
                         InputLabelProps={{
                             shrink: true,
                         }}
+                        onChange={(e)=> {
+                            setRoomInfo({
+                                room: {
+                                    ...roomInfo.room,
+                                    bedRoom: Number(e.target.value)
+                                }
+                            });
+                        }}
                     />
                     <TextField
                         id="outlined-number"
@@ -195,30 +225,70 @@ export default function HotelUpload() {
                         InputLabelProps={{
                             shrink: true,
                         }}
+                        onChange={(e)=> {
+                            setRoomInfo({
+                                room: {
+                                    ...roomInfo.room,
+                                    toilet: Number(e.target.value)
+                                }
+                            });
+                        }}
                     />
-                    <FormControlLabel required control={<Checkbox />} label="Wifi" />
-                    <FormControlLabel required control={<Checkbox />} label="Swimming pool" />
+                    <FormControlLabel required control={<Checkbox />} label="Wifi"
+                                      defaultValue={roomInfo.room.wifi}
+                                      onChange={(e)=> {
+                                          setRoomInfo({
+                                              room: {
+                                                  ...roomInfo.room,
+                                                  wifi: e.target.checked
+                                              }
+                                          });
+                                      }}
+                    />
+                    <FormControlLabel required control={<Checkbox />} label="Swimming pool"
+                                      onChange={(e)=> {
+                                          setRoomInfo({
+                                              room: {
+                                                  ...roomInfo.room,
+                                                  wifi: e.target.checked
+                                              }
+                                          });
+                                      }}
+                    />
                     <TextField
-                    label="Price"
+                    label="Price($)"
                     id="standard-basic"
                     variant="standard"
                     name="price"
-                    defaultValue={room.price}
+                    defaultValue={roomInfo.room.price}
                     sx={{margin: theme.spacing(2), width: 500}}
                     autoComplete='off'
                     helperText="Enter your home's price"
-                    onChange={handleChange}
+                    onChange={(e)=> {
+                        setRoomInfo({
+                            room: {
+                                ...roomInfo.room,
+                                price: e.target.value
+                            }
+                        });
+                    }}
                     />
                     <TextField
                         label="Phone"
                         id="standard-basic"
                         variant="standard"
                         name="phone"
-                        // defaultValue={room.price}
                         sx={{margin: theme.spacing(2), width: 500}}
                         autoComplete='off'
                         helperText="Enter your phone number"
-                        onChange={handleChange}
+                        onChange={(e)=> {
+                            setRoomInfo({
+                                room: {
+                                    ...roomInfo.room,
+                                    phone: e.target.value
+                                }
+                            });
+                        }}
                     />
                 <Autocomplete
                     {...defaultProps}
@@ -234,16 +304,23 @@ export default function HotelUpload() {
                     id="standard-basic"
                     variant="standard"
                     name="description"
-                    defaultValue={room.description}
+                    defaultValue={roomInfo.room.description}
                     sx={{margin: theme.spacing(2), width: 500}}
                     autoComplete='off'
                     helperText="Enter your home's description"
-                    onChange={handleChange}
+                    onChange={(e)=> {
+                        setRoomInfo({
+                            room: {
+                                ...roomInfo.room,
+                                description: e.target.value
+                            }
+                        });
+                    }}
                 />
                 <Button
-                    type="submit"
                     variant="contained"
                     sx={{margin: theme.spacing(6,2), backgroundColor: '#ef405f', display:'flex'}}
+                    onClick={handleUpload}
                 >
                     Upload
                     <SendIcon sx={{marginLeft: theme.spacing(3)}} />

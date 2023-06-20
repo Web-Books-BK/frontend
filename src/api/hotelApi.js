@@ -18,6 +18,10 @@ const hotelApi = {
         const response = await axiosClient.get('/users')
         return response;
     },
+    uploadMyHotel: async (data) =>{
+        const response = await axiosClient.post('/rooms',data);
+        return response;
+    },
     deleteRentedHotel: async (id) => {
         const response = await  axiosClient.delete(`/reservations/${id}`)
         return response;
