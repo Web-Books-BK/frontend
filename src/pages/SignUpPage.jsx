@@ -14,28 +14,26 @@ export default function SignUpPage() {
     const defaultTheme = createTheme();
 
     const [input, setInput] = useState({
-        "userName": "",
-        "fullName": "",
-        "email": "",
-        "password": "",
-        "phone": "",
-        "address": "",
-        "role": 1
+        userName: "",
+        fullName: "",
+        email: "",
+        password: "",
+        phone:"",
+        address:"",
+        role:1,
     })
 
     const handleInput = (e) => {
         setInput({
             ...input,
-            [e.target.name]: e.target.value, 
+            [e.target.name]: e.target.value,
         })
     }
-    
+
     // Store value in sessionStorage
     const handleSubmit = (e) => {
-        e.preventDefault();
-        sessionStorage.setItem('user', JSON.stringify(input));
-        sessionStorage.setItem('loggedIn', true);
-        navigate('/');
+
+        navigate('/login');
     }
 
     const handleSignUp = async () => {
@@ -70,7 +68,7 @@ export default function SignUpPage() {
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                 }}
-                
+
                 />
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                 <Box
@@ -170,32 +168,15 @@ export default function SignUpPage() {
                     />
                     <FormControlLabel
                         control={<Checkbox color="primary"/>}
-                        label="I agree to Airbnb's Privacy Policy" 
-                       
+                        label="I agree to Airbnb's Privacy Policy"
+
                     />
-                    <Button 
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 1, mb: 1, backgroundColor: 'black' }}
-                    >
-                        <FcGoogle style={{marginRight:24}}/>
-                        Continue with Google
-                    </Button>
-                    <Button 
-                        fullWidth
-                        variant="contained" 
-                        sx={{ mt: 1, mb: 1, backgroundColor: 'black' }}
-                    >
-                        <AiFillGithub style={{marginRight:24}}/>
-                        Continue with Github
-                    </Button>
+
                     <Button
-                        type="submit"
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2, backgroundColor: '#ef405f' }}
-                        onClickCapture={handleSignUp}
-                        
+                        onClick={handleSignUp}
                     >
                         Sign Up
                     </Button>

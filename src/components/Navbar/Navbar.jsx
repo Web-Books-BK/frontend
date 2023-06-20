@@ -42,7 +42,7 @@ export default function Navbar() {
                     style={{fontSize:'1rem', cursor:'pointer', padding: '10px'}}c
                     onClick={() => handleClick('/hosts')}
                 >
-                    Airbnb your home
+                    Your home
                 </div>
                 <div
                     className="language"
