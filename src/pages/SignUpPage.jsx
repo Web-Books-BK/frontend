@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Button, CssBaseline, TextField, FormControlLabel, Checkbox} from '@mui/material';
 import { Paper, Grid, Box, Typography} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -32,22 +32,17 @@ export default function SignUpPage() {
 
     // Store value in sessionStorage
     const handleSubmit = (e) => {
-
         navigate('/login');
     }
 
     const handleSignUp = async () => {
         try {
-            const res = await authApi.signup(input);
-            if (res.status === 200) {
-                sessionStorage.setItem("id", res.data.user.id)
-                
-                navigate("/");
-            }
+            const result = await authApi.signup(input)
+                .then((res)=>{
+                    console.log(res)
+                })
         }catch (e){
-            if (e.response.status === 401){
-                
-            }
+            console.log(e)
         }
     }
 
@@ -86,7 +81,7 @@ export default function SignUpPage() {
                     <TextField
                         margin="normal"
                         required
-                        fullWidth      
+                        fullWidth
                         id="email"
                         label="Email"
                         type="text"
@@ -100,7 +95,7 @@ export default function SignUpPage() {
                     <TextField
                         margin="normal"
                         required
-                        fullWidth      
+                        fullWidth
                         id="fullName"
                         label="fullName"
                         type="text"
@@ -114,11 +109,11 @@ export default function SignUpPage() {
                     <TextField
                         margin="normal"
                         required
-                        fullWidth      
+                        fullWidth
                         id="username"
                         label="Username"
                         type="text"
-                        name="username"
+                        name="userName"
                         autoComplete="username"
                         helperText="Enter your username"
                         autoFocus
@@ -128,7 +123,7 @@ export default function SignUpPage() {
                     <TextField
                         margin="normal"
                         required
-                        fullWidth      
+                        fullWidth
                         id="address"
                         label="Address"
                         type="text"
@@ -142,7 +137,7 @@ export default function SignUpPage() {
                     <TextField
                         margin="normal"
                         required
-                        fullWidth      
+                        fullWidth
                         id="phone"
                         label="Phone Number"
                         type="text"
