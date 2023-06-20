@@ -3,10 +3,12 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 
-export default function DatePicker() {
+export default function DatePicker({onChange}) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DateCalendar showDaysOutsideCurrentMonth fixedWeekNumber={6} />
+      <DateCalendar showDaysOutsideCurrentMonth fixedWeekNumber={6}
+        onChange={onChange}
+      />
     </LocalizationProvider>
   );
 }

@@ -5,6 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Construction from '@mui/icons-material/Construction';
 import { styled } from '@mui/material/styles';
 import axios from "axios";
+import hotelApi from "../../api/hotelApi";
 
 const Img = styled('img')({
     margin: 'auto',
@@ -18,9 +19,14 @@ export default function RentedRoom() {
     const [bookedRooms, setBookedRooms] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/bookedRooms')
-        .then(res => setBookedRooms(res.data))
-        .catch(err => console.log(err))
+        async function listRentedRooms() {
+            const response = await hotelApi.getListRentedHotel()
+                .then((res)=>{
+                    setBookedRooms(res.data.data.reservated);
+                    console.log(res.data.data.reservated);
+                })
+        }
+        listRentedRooms()
     }, [])
 
     const handleClick = (id) => {
@@ -28,27 +34,16 @@ export default function RentedRoom() {
         navigate(path);
     }
 
-    const handleRemove = (id) => {
-        const bookedRoomData = {
-            id: bookedRooms.id,
-            roomId: bookedRooms.roomId,
-            bookingDate: bookedRooms.bookingDate,
-            fromDate: bookedRooms.fromDate,
-            toDate: bookedRooms.toDate,
-            title: bookedRooms.title,
-            image: bookedRooms.image,
-            place: bookedRooms.place,
-            price: bookedRooms.price
-        };
-
-        axios.delete(`http://localhost:3001/bookedRooms/${id}`, bookedRoomData)
-        .then((res) => {
-
-            console.log('Room removed successfully');
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+    const handleRemove = async (id) => {
+        const result = await hotelApi.deleteRentedHotel(id)
+            .then((res)=>{
+                console.log(res)
+            })
+        const response = await hotelApi.getListRentedHotel()
+            .then((res)=>{
+                setBookedRooms(res.data.data.reservated);
+                console.log(res.data.data.reservated);
+            })
     };
 
     const handleUpdate = (id) => {
@@ -90,7 +85,7 @@ export default function RentedRoom() {
                         <Grid container spacing={2}>
                             <Grid item>
                                 <ButtonBase sx={{ width: 200, height: 200 }}>
-                                    <Img alt={bookedRoom} src={bookedRoom.image} onClick={() => handleClick(bookedRoom.roomId)}/>
+                                    <Img alt={bookedRoom} src={bookedRoom.Room.images ? bookedRoom.Room.images[0] : null } onClick={() => handleClick(bookedRoom.roomId)}/>
                                 </ButtonBase>
                             </Grid>
 
@@ -98,16 +93,16 @@ export default function RentedRoom() {
                                 <Grid item xs container direction="column" spacing={2}>
                                     <Grid item xs>
                                         <Typography gutterBottom variant="subtitle1" component="div">
-                                            {bookedRoom.title}
+                                            {bookedRoom.Room.name}
                                         </Typography>
                                         <Typography variant="body2" gutterBottom>
-                                            Booking date: {bookedRoom.bookingDate}
+                                            From: {new Date(bookedRoom.startDate *1000 ).toDateString()}
                                         </Typography>
                                         <Typography variant="body2" gutterBottom sx={{fontStyle: "italic"}}>
-                                            From: {bookedRoom.fromDate} To: {bookedRoom.toDate}
+                                           To: {new Date(bookedRoom.endDate *1000 ).toDateString()}
                                         </Typography>
                                         <Typography variant="body2" color="text.secondary">
-                                            {bookedRoom.place}
+                                            {bookedRoom.Room.address}
                                         </Typography>
                                     </Grid>
                                     <Grid item>

@@ -1,19 +1,26 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
-import { Button, TextField, Paper, Typography, Autocomplete } from "@mui/material";
+import {Button, TextField, Paper, Typography, Autocomplete, FormControlLabel, Checkbox} from "@mui/material";
 import { createTheme } from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send';
 import ImageUploading from "react-images-uploading";
 import { categories } from "../Category/Categories"
 export default function HotelUpload() {
     const [room, setRoom] = useState({
-        id: "",
-        title: "",
-        image: "",
-        place: "",
-        price: "",
-        category: "",
-        description: ""
+        room: {
+            name: "",
+            description: "",
+            available: true,
+            livingRoom: 0,
+            bedRoom: 0,
+            toilet: 0,
+            wifi: true,
+            swimmingPool: true,
+            price: "",
+            address: "",
+            phone: "",
+            images: []
+        }
     });
 
 
@@ -62,7 +69,9 @@ export default function HotelUpload() {
         // Reset form fields
         e.target.reset();
     };
-
+    useEffect(()=>{
+        console.log(images)
+    })
 
     return (
         <div
@@ -89,27 +98,9 @@ export default function HotelUpload() {
                     helperText="Enter your home name"
                     onChange={handleChange}
                 />
-                <Button
-                    id="standard-basic"
-                    variant="contained"
-                    component="label"
-                    name="image"
-                >
-                    Upload Image
-                    <input
-                        type="file"
-                        hidden
-                        multiple
-                        onChange={()=>{
 
-                        }}
-                    />
-                    {/*{images.map((image, index) => (*/}
-                    {/*<div key={index} style={{display:'flex', flexDirection:'row', margin:'10px', float:'left', left:0}}>*/}
-                    {/*    <img src={image.data_url} alt="" width="100" height="100"/>*/}
-                    {/*</div>*/}
-                    {/*))}*/}
-                </Button>
+
+
                 <Typography sx={{margin: theme.spacing(2)}}>
                     Maximum upload 10 photos
                 </Typography>
@@ -122,17 +113,23 @@ export default function HotelUpload() {
                         type="file"
                         hidden
                         onChange={async (e)=>{
-                            console.log(e.target.files)
+                            // console.log(typeof (e.target.files.item(0)))
+                            // console.log(e.target.files.item(0).type)
+                            var bodyFormData = new FormData();
+                            bodyFormData.append('file',e.target.files.item(0));
                             try {
-                                const result = await axios('https://freeimage.host/api/1/upload?key=6d207e02198a847aa98d0a2a901485a5',
+                                const result = await axios.post('https://api.upload.io/v2/accounts/W142hze/uploads/form_data',
+                                    bodyFormData,
                                     {
-                                        "source": e.target.files,
-                                },{
-                                    headers: {
-                                        'Content-Type': "multipart/form-data"
-                                    }
+                                        headers: {
+                                            'Content-Type': "multipart/form-data",
+                                            'Authorization': "Bearer public_W142hze9v1BzSKxmiavBDcbzxenQ"
+                                        }
                                 }).then((res)=>{
-                                    console.log(res)
+                                    const newImage = res.data.files[0].fileUrl;
+                                    setImages(prevImage =>
+                                        [...prevImage,newImage]
+                                    )
                                 })
                             }catch (e){
                                 console.log(e)
@@ -140,61 +137,68 @@ export default function HotelUpload() {
 
                         }}
                     />
-                    {/*{images.map((image) =>{*/}
-                    {/*    <img src={image} />*/}
-                    {/*})}*/}
 
                 </Button>
+                {images.map((image, index) => (
+                    <div key={index} style={{display:'flex', flexDirection:'row', margin:'10px', float:'left', left:0}}>
+                        <img src={image} alt="" width="100" height="100"/>
+                    </div>
+                ))}
 
-                    {/*<ImageUploading*/}
 
-                {/*    multiple*/}
-                {/*    value={images}*/}
-                {/*    onChange={onChange}*/}
-                {/*    maxNumber={maxNumber}*/}
-                {/*    dataURLKey="data_url"*/}
-                {/*    acceptType={["jpg", "png"]}*/}
-                {/*>*/}
-                {/*    {({*/}
-                {/*    imageList,*/}
-                {/*    onImageUpload,*/}
-                {/*    onImageUpdate,*/}
-                {/*    onImageRemove,*/}
-                {/*    dragProps*/}
-                {/*    }) => (*/}
-                {/*    // write your building UI*/}
-                {/*    <div>*/}
-                {/*        <Button */}
-                {/*            type="file"*/}
-                {/*            variant="contained"*/}
-                {/*            sx={{*/}
-                {/*                margin: theme.spacing(1,2), backgroundColor: '#ef405f', display:'flex'*/}
-                {/*            }}*/}
-                {/*            onClick={onImageUpload}*/}
-                {/*            {...dragProps}*/}
-                {/*        >*/}
-                {/*            Choose File*/}
-                {/*        </Button>*/}
-                {/*        {imageList.map((image, index) => (*/}
-                {/*        <div key={index} style={{display:'flex', flexDirection:'row', margin:'10px', float:'left', left:0}}>*/}
-                {/*            <img src={image.data_url} alt="" width="100" height="100"/>*/}
-                {/*        </div>*/}
-                {/*        ))}*/}
-                {/*    </div>*/}
-                {/*    )}*/}
-                {/*</ImageUploading>*/}
                 <TextField
-                    label="Place"
+                    label="Address"
                     id="standard-basic"
                     variant="standard"
-                    name="place"
+                    name="address"
                     defaultValue={room.place}
                     sx={{margin: theme.spacing(2), width: 500}}
                     autoComplete='off'
                     helperText="Enter your country"
                     onChange={handleChange}
                 />
-                <TextField
+                    <TextField
+                        id="outlined-number"
+                        variant="standard"
+                        name="living room"
+                        label="Living room"
+                        type="number"
+                        sx={{margin: theme.spacing(2), width: 500}}
+                        autoComplete='off'
+                        helperText="Enter your living room number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
+                    <TextField
+                        id="outlined-number"
+                        variant="standard"
+                        name="Bed room"
+                        type="number"
+                        label="Bed room"
+                        sx={{margin: theme.spacing(2), width: 500}}
+                        autoComplete='off'
+                        helperText="Enter your bed room number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
+                    <TextField
+                        id="outlined-number"
+                        variant="standard"
+                        name="Toilet"
+                        label="Toilet"
+                        type="number"
+                        sx={{margin: theme.spacing(2), width: 500}}
+                        autoComplete='off'
+                        helperText="Enter your toilet number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
+                    <FormControlLabel required control={<Checkbox />} label="Wifi" />
+                    <FormControlLabel required control={<Checkbox />} label="Swimming pool" />
+                    <TextField
                     label="Price"
                     id="standard-basic"
                     variant="standard"
@@ -204,7 +208,18 @@ export default function HotelUpload() {
                     autoComplete='off'
                     helperText="Enter your home's price"
                     onChange={handleChange}
-                />
+                    />
+                    <TextField
+                        label="Phone"
+                        id="standard-basic"
+                        variant="standard"
+                        name="phone"
+                        // defaultValue={room.price}
+                        sx={{margin: theme.spacing(2), width: 500}}
+                        autoComplete='off'
+                        helperText="Enter your phone number"
+                        onChange={handleChange}
+                    />
                 <Autocomplete
                     {...defaultProps}
                     id="disable-portal"

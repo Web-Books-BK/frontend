@@ -35,6 +35,7 @@ export default function LoginPage(){
             if (res.status === 200) {
 
                 const result = sessionStorage.setItem("token", res.headers['token']);
+                sessionStorage.setItem("id", res.data.user.id)
                 await dispatch(login(res.data.user));
                 setWrongInfo(false);
                 navigate("/");

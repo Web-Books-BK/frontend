@@ -4,69 +4,67 @@ import { Button } from "@mui/material";
 import DatePicker from "./DatePicker";
 import hotelApi from "../../api/hotelApi";
 import axios from "axios";
+import reservationApi from "../../api/reservationApi";
 
-export default function DetailRoom() {
+export default function DetailRoom({id}) {
     const [guests, setGuests] = useState(1);
     const [bedrooms, setBedrooms] = useState(1);
     const [bathrooms, setBathrooms] = useState(1);
     const [nights, setNights] = useState(1);
-    const [detailRoom, setDetailRoom] = useState(null);
+    const [detailRoom, setDetailRoom] = useState({
+        "id": "",
+        "name": "",
+        "description": "",
+        "available": true,
+        "livingRoom": 0,
+        "bedroom": 0,
+        "toilet": 0,
+        "wifi": true,
+        "swimmingPool": true,
+        "images": "",
+        "price": "50",
+        "address": "",
+        "phone": "",
+        "owner": "",
+        "createAt": "",
+        "updateAt": ""
+    });
+    const [bookingInfo, setBookingInfo] = useState({
+        reservation: {
+            room: id,
+            startDate: "",
+            endDate: ""
+        }
+    })
 
-    const handlePlusGuests = () => {
-        setGuests(guests => Math.min(guests + 1, 5));
-    }
 
-    const handlePlusBedrooms = () => {
-        setBedrooms(bedrooms => Math.min(bedrooms + 1, 5));
-    }
+    useEffect( () => {
+        async function fetchData(){
+            return await hotelApi.getDetailHotel(id)
+                .then((res)=>{
+                    console.log(res.data.data)
+                    setDetailRoom(res.data.data);
+                })
+        }
+        fetchData()
+    }, []);
 
-    const handlePlusBathrooms = () => {
-        setBathrooms(bathrooms => Math.min(bathrooms + 1, 5));
-    }
 
-    const handlePlusNights = () => {
-        setNights(nights => Math.min(nights + 1, 5));
-    }
+    const handleBooking = async () => {
+        try {
 
-    const handleMinusGuests = () => {
-        setGuests(guests => Math.max(guests - 1, 0));
-    }
-
-    const handleMinusBedrooms = () => {
-        setBedrooms(bedrooms => Math.max(bedrooms - 1, 0));
-    }
-
-    const handleMinusBathrooms = () => {
-        setBathrooms(bathrooms => Math.max(bathrooms - 1, 0));
-    }
-
-    const handleMinusNights = () => {
-        setNights(nights => Math.max(nights - 1, 0));
-    }
-
-    // useEffect( () => {
-    //     async function fetchData(){
-    //         return await hotelApi.getDetailHotel();
-    //     }
-    //     fetchData()
-    //         .then((res)=>{
-    //             setDetailRoom(res.data);
-    //             console.log(res.data)
-    //         })
-    // }, []);
-
-    // useEffect( () => {
-    //     axios.get('localhost:8080/rooms/3fe0745d-00bd-4cf9-82cc-c64d12752161')
-    //     .then((res) => {
-    //         setDetailRoom(res.data)
-    //         console.log(res.data)
-    //     })
-    //     .catch(err => console.log(err))
-    // })
-
-    const handleBooking = () => {
+            const result = await reservationApi.bookingHotel(bookingInfo)
+                .then((res)=>{
+                    console.log(res)
+                })
+        }catch (e){
+            console.log(e)
+        }
 
     }
+    useEffect(()=>{
+        console.log(bookingInfo)
+    })
 
     return(
         <>
@@ -75,131 +73,17 @@ export default function DetailRoom() {
                     <div style={{
                         fontSize:'32px'
                     }} >
-                        {/* {detailRoom.name} */} Hotel Name
+                         {detailRoom.name}
                     </div>
-                    <div 
+                    <div
                         style={{
                             marginTop:'8px', fontStyle:'italic', fontSize:'20px'
                         }}
                     >
-                        {/* {detailRoom.address} */} Hotel Address
+                         {detailRoom.address}
                     </div>
                     <div style={{margin:'16px', borderRadius:'24px'}}>
-                        <img src="" alt="" width='100%' height='400' style={{borderRadius:'24px'}}/>
-                    </div>
-
-                    <div style={{display:'flex', flexDirection:'row', marginBottom:'40px'}}>
-                        <div style={{marginRight:'40px', display:'flex', flexDirection:'row'}}>
-                            <Button style={{maxWidth:'24px', maxHeight:'24px'}}>
-                                <AiFillPlusSquare 
-                                    size={24} 
-                                    style={{cursor:'pointer'}}
-                                    onClick={handlePlusGuests}
-                                />
-                            </Button>                        
-                            <div style={{margin:'0px 16px', alignItems:'center', justifyContent:'center'}}>
-                                Guests
-                                <div 
-                                    style={{
-                                        backgroundColor:'#ccc', padding:'0px 24px', borderRadius:'24px', 
-                                        display: 'inline-block', alignItems:'center', justifyContent:'center'
-                                    }}
-                                >
-                                    {guests}
-                                </div>
-                            </div>
-                            <Button style={{maxWidth:'24px', maxHeight:'24px'}}>
-                                <AiFillMinusSquare 
-                                    size={24} 
-                                    style={{cursor:'pointer'}}
-                                    onClick={handleMinusGuests}
-                                />
-                            </Button>
-                        </div>
-
-                        <div style={{marginRight:'40px', display:'flex', flexDirection:'row'}}>
-                            <Button style={{maxWidth:'24px', maxHeight:'24px'}}>
-                                <AiFillPlusSquare 
-                                    size={24} 
-                                    style={{cursor:'pointer'}}
-                                    onClick={handlePlusBedrooms}
-                                />
-                            </Button>                        
-                            <div style={{margin:'0px 16px', alignItems:'center', justifyContent:'center'}}>
-                                Bedrooms
-                                <div 
-                                    style={{
-                                        backgroundColor:'#ccc', padding:'0px 24px', borderRadius:'24px', 
-                                        display: 'inline-block', alignItems:'center', justifyContent:'center'
-                                    }}
-                                >
-                                    {bedrooms}
-                                </div>
-                            </div>
-                            <Button style={{maxWidth:'24px', maxHeight:'24px'}}>
-                                <AiFillMinusSquare 
-                                    size={24} 
-                                    style={{cursor:'pointer'}}
-                                    onClick={handleMinusBedrooms}
-                                />
-                            </Button>
-                        </div>
-
-                        <div style={{marginRight:'40px', display:'flex', flexDirection:'row'}}>
-                            <Button style={{maxWidth:'24px', maxHeight:'24px'}}>
-                                <AiFillPlusSquare 
-                                    size={24} 
-                                    style={{cursor:'pointer'}}
-                                    onClick={handlePlusBathrooms}
-                                />
-                            </Button>                        
-                            <div style={{margin:'0px 16px'}}>
-                                Bathrooms
-                                <div 
-                                    style={{
-                                        backgroundColor:'#ccc', padding:'0px 24px', borderRadius:'24px', 
-                                        display: 'inline-block', alignItems:'center', justifyContent:'center'
-                                    }}
-                                >
-                                    {bathrooms}
-                                </div>
-                            </div>
-                            <Button style={{maxWidth:'24px', maxHeight:'24px'}}>
-                                <AiFillMinusSquare 
-                                    size={24} 
-                                    style={{cursor:'pointer'}}
-                                    onClick={handleMinusBathrooms}
-                                />
-                            </Button>
-                        </div>
-
-                        <div style={{marginRight:'40px', display:'flex', flexDirection:'row'}}>
-                            <Button style={{maxWidth:'24px', maxHeight:'24px'}}>
-                                <AiFillPlusSquare 
-                                    size={24} 
-                                    style={{cursor:'pointer'}}
-                                    onClick={handlePlusNights}
-                                />
-                            </Button>                        
-                            <div style={{margin:'0px 16px'}}>
-                                Nights
-                                <div 
-                                    style={{
-                                        backgroundColor:'#ccc', padding:'0px 24px', borderRadius:'24px', 
-                                        display: 'inline-block', alignItems:'center', justifyContent:'center'
-                                    }}
-                                >
-                                    {nights}
-                                </div>
-                            </div>
-                            <Button style={{maxWidth:'24px', maxHeight:'24px'}}>
-                                <AiFillMinusSquare 
-                                    size={24} 
-                                    style={{cursor:'pointer'}}
-                                    onClick={handleMinusNights}
-                                />
-                            </Button>
-                        </div>
+                        <img src={detailRoom.images[0]} alt="" width='100%' height='400' style={{borderRadius:'24px'}}/>
                     </div>
 
                     <div style={{float: 'right', display:'flex', flexDirection:'row'}}>
@@ -207,33 +91,78 @@ export default function DetailRoom() {
                             <div style={{padding:'0 120px'}}>
                                 Check in
                             </div>
-                            <DatePicker />
+                            <DatePicker
+                                onChange={(e)=>{
+                                    const tsTime = Math.floor(e.$d.getTime() / 1000);
+                                    setBookingInfo({
+                                        reservation: {
+                                            room: bookingInfo.reservation.room,
+                                            startDate: tsTime,
+                                            endDate: bookingInfo.reservation.endDate
+                                        }
+                                    })
+
+                                }}
+                            />
                         </div>
                         <div style={{marginLeft:'40px'}}>
                             <div style={{padding:'0 120px'}}>
                                 Check out
                             </div>
-                            <DatePicker />
+                            <DatePicker
+                                onChange={(e)=>{
+                                    const tsTime = Math.floor(e.$d.getTime() / 1000);
+                                    setBookingInfo({
+                                        reservation: {
+                                            room: bookingInfo.reservation.room,
+                                            endDate: tsTime,
+                                            startDate: bookingInfo.reservation.startDate
+                                        }
+                                    })
+                                }}
+                            />
                         </div>
                     </div>
-                    
+
                     <div style={{marginTop:'32px', marginBottom:'32px', height:400}}>
-                        Description
-                        {}
+                        <div>Description</div>
+                        <div>{detailRoom.description}</div>
+                    </div>
+                    <div
+                        style={{
+                            justifyContent:'center',
+                            alignContent:'center',
+                            display: 'flex',
+                            flexDirection: 'column'
+                        }}
+                    >
+                        <div style={
+                            detailRoom.available ? {
+                                marginTop:'32px', marginBottom:'32px', fontSize:'32px',color: '#0ae52d',height:'100px'
+                            }:{
+                                marginTop:'32px', marginBottom:'32px', fontSize:'32px',color: '#d92c2c'
+                            }
+                        }>
+                            {detailRoom.available ?
+                                "Avaiable"
+                                :
+                                "Rented"
+                            }
+                        </div>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            style={{backgroundColor:'#ef405f', width:400}}
+                            onClick={handleBooking}
+                            disabled={detailRoom.available? false: true}
+                        >
+                            Book now
+                        </Button>
                     </div>
 
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        style={{backgroundColor:'#ef405f', width:400}}
-                        onClick={handleBooking}
-                    >
-                        Book now
-                    </Button>
-                    
                 </div>
             {/* )}       */}
-        </>  
+        </>
     )
 }
 

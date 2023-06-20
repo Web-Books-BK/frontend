@@ -11,7 +11,6 @@ export default function Rooms() {
     const handleClick = (id) => {
         let path = `/rooms/${id}`;
         navigate(path);
-
     }
 
     useEffect( () => {
