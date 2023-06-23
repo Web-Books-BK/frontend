@@ -3,8 +3,11 @@ import { Button } from "@mui/material";
 import DatePicker from "./DatePicker";
 import hotelApi from "../../api/hotelApi";
 import reservationApi from "../../api/reservationApi";
+import { useNavigate } from "react-router-dom";
+
 
 export default function DetailRoom({id}) {
+    const navigate = useNavigate();
     const [detailRoom, setDetailRoom] = useState({
         "id": "",
         "name": "",
@@ -50,16 +53,13 @@ export default function DetailRoom({id}) {
             const result = await reservationApi.bookingHotel(bookingInfo)
                 .then((res)=>{
                     console.log(res)
+                    navigate('/rented')
                 })
         }catch (e){
             console.log(e)
         }
 
     }
-    
-    useEffect(()=>{
-        console.log(bookingInfo)
-    })
 
     return(
         <>
