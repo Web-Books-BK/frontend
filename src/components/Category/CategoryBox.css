@@ -1,4 +1,25 @@
-.categories:hover, .selected {
+.category_box {
+    display: flex; 
+    flex-direction: column;
+    gap: 8px; 
+    align-items: center;
+    justify-content: center; 
+    padding: 12px; 
+    cursor: pointer;
+    transition: all;
+    margin-right: 32px;
+}
+
+.category_box:hover {
+    border-bottom: 2px solid #ccc;
+    transition: all 0.2s;
+}
+
+.selected {
     border-bottom: 2px solid black;
     transition: all 0.2s;
+}
+
+.label {
+    font-size: 14px;
 }
