@@ -5,9 +5,11 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import { MdLanguage } from "react-icons/md"
 import "./Navbar.css"
+import {useSelector} from "react-redux";
 
 export default function Navbar() {
     const navigate = useNavigate();
+    const authState = useSelector((state) => state.auth)
 
     const handleClick = (path) => {
         navigate(path);
@@ -50,6 +52,12 @@ export default function Navbar() {
                 >
                     <MdLanguage size={24}/>
                 </div>
+                {authState.loggedIn?
+                    <>Hello,{authState.fullName}</>
+                :
+                    <></>
+                }
+                <div></div>
                 <div>
                     <UserMenu />
                 </div>

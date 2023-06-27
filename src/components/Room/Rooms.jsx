@@ -4,8 +4,7 @@ import "./Rooms.css"
 import hotelApi from "../../api/hotelApi";
 import {Button} from "@mui/material";
 
-export default function Rooms() {
-    const [rooms, setRooms] = useState([]);
+export default function Rooms({rooms,setRooms}) {
 
     let navigate = useNavigate();
 
@@ -19,10 +18,8 @@ export default function Rooms() {
             return await hotelApi.getListHotel()
                 .then((res)=>{
                     try {
-                        console.log("rooms", res)
                         if(res.status == 200){
                             setRooms(res.data.data);
-                            console.log(res.data.data);
                         }
                     }catch (e){
 
@@ -72,8 +69,8 @@ export default function Rooms() {
                             }}
                             >
                                 {room.address}
-                                <span style={{marginLeft:'5px', fontStyle:'italic'}}>
-                                    {room.price}$ night
+                                <span style={{marginLeft:'5px', fontStyle:'italic',float:"right"}}>
+                                    {room.price}$/night
                                 </span>
                             </div>
                         </div>

@@ -30,8 +30,7 @@ export default function RentedRoom() {
     }, [])
 
     const handleClick = (id) => {
-        let path = `/id=${id}`;
-        navigate(path);
+        navigate(`/rooms/${id}`);
     }
 
     const handleRemove = async (id) => {
@@ -85,16 +84,17 @@ export default function RentedRoom() {
                         <Grid container spacing={2}>
                             <Grid item>
                                 <ButtonBase sx={{ width: 200, height: 200 }}>
-                                    <Img alt={bookedRoom} src={bookedRoom.Room.images ? bookedRoom.Room.images[0] : null } onClick={() => handleClick(bookedRoom.roomId)}/>
+                                    <Img alt={bookedRoom} src={bookedRoom.Room.images ? bookedRoom.Room.images[0] : null } onClick={()=>handleClick(bookedRoom.Room.id)}/>
                                 </ButtonBase>
                             </Grid>
 
                             <Grid item xs={12} sm container>
                                 <Grid item xs container direction="column" spacing={2}>
                                     <Grid item xs>
-                                        <Typography gutterBottom variant="subtitle1" component="div">
+                                        <Typography gutterBottom variant="h5" component="div">
                                             {bookedRoom.Room.name}
                                         </Typography>
+
                                         <Typography variant="body2" gutterBottom>
                                             From: {new Date(bookedRoom.startDate *1000 ).toDateString()}
                                         </Typography>
@@ -103,6 +103,9 @@ export default function RentedRoom() {
                                         </Typography>
                                         <Typography variant="body2" color="text.secondary">
                                             {bookedRoom.Room.address}
+                                        </Typography>
+                                        <Typography gutterBottom variant="body2" component="div">
+                                            {bookedRoom.Room.phone}
                                         </Typography>
                                     </Grid>
                                     <Grid item>
@@ -132,7 +135,7 @@ export default function RentedRoom() {
                                 </Grid>
                                 <Grid item>
                                     <Typography variant="subtitle1" component="div">
-                                        {bookedRoom.price}
+                                        {bookedRoom.price*(new Date(bookedRoom.endDate *1000 ).getDate()-new Date(bookedRoom.startDate *1000 ).getDate())}$ for {new Date(bookedRoom.endDate *1000 ).getDate()-new Date(bookedRoom.startDate *1000 ).getDate()} day
                                     </Typography>
                                 </Grid>
                             </Grid>

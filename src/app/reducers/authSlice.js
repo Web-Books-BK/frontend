@@ -16,15 +16,15 @@ export const authSlice = createSlice({
     },
     reducers:  {
         login: (state,action) => {
-            // state.id = action.payload.id;
-            // state.userName = action.payload.userName;
-            // state.fullName = action.payload.fullName;
-            // state.email = action.payload.email;
-            // state.phone = action.payload.phone;
-            // state.address = action.payload.address;
-            // state.role = action.payload.role;
-            // state.createAt = action.payload.createAt;
-            // state.updateAt = action.payload.updateAt;
+            state.id = action.payload.id;
+            state.userName = action.payload.userName;
+            state.fullName = action.payload.fullName;
+            state.email = action.payload.email;
+            state.phone = action.payload.phone;
+            state.address = action.payload.address;
+            state.role = action.payload.role;
+            state.createAt = action.payload.createAt;
+            state.updateAt = action.payload.updateAt;
             state.loggedIn=true;
         },
         logout:(state)=>{

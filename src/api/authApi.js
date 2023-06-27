@@ -12,6 +12,10 @@ const authApi = {
     logout: async () => {
         const response = await axiosClient('logout');
         return response.data;
+    },
+    getUserInfo: async () =>{
+        const response = await axiosClient.get('/users');
+        return response;
     }
 }
 

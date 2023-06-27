@@ -13,42 +13,55 @@ import { useNavigate } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../../app/reducers/authSlice";
 
-const options = ["Log in", "Sign up", "Airbnb your home", "Rented rooms", "Log out"];
+const options = ["Log in", "Sign up", "Your home", "Rented rooms", "Log out"];
 
 export default function UserMenu() {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  let selectedIndex;
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth)
 
 
     let navigate = useNavigate();
-  const handleClick = () => {
-    let path = '';
-    if(options[selectedIndex] === 'Log in') {
-        path = '/login';
-    }
-    if(options[selectedIndex] === 'Sign up') {
-        path = '/signup';
-    }
-    if(options[selectedIndex] === 'Airbnb your home') {
-        path = '/hosts'
-    }
-    if(options[selectedIndex] === 'Rented rooms') {
-        path = '/rented'
-    }
-    if(options[selectedIndex] === 'Log out') {
-        sessionStorage.removeItem('token');
-        dispatch(logout())
-        path = '/';
-    }
-    navigate(path);
+
+  function handleClick() {
+      let path = '';
+      switch (options[selectedIndex]) {
+          case 'Sign up':
+              path = '/signup';
+              navigate(path);
+              break;
+          case 'Log in':
+              path = '/login';
+              navigate(path);
+              break;
+          case 'Your home':
+              path = '/hosts';
+              navigate(path);
+              break;
+          case 'Rented rooms':
+              path = '/rented';
+              navigate(path);
+              break;
+          case 'Log out':
+              sessionStorage.removeItem('token');
+              dispatch(logout())
+              path = '/login';
+              navigate(path);
+              break;
+          default:
+              path = '/login';
+              navigate(path);
+              break;
+
+      }
   }
 
-  const handleMenuItemClick = (event, index) => {
-    setSelectedIndex(index);
+  const handleMenuItemClick = async (event, index) => {
+      selectedIndex=index;
     setOpen(false);
+    handleClick();
   };
 
   const handleToggle = () => {
@@ -63,9 +76,6 @@ export default function UserMenu() {
     setOpen(false);
   };
 
-  useEffect(()=>{
-
-  },[authState])
   return (
     <>
         <ButtonGroup
@@ -73,16 +83,15 @@ export default function UserMenu() {
             ref={anchorRef}
             aria-label="split button"
         >
-            <Button
-                style={{
-                    backgroundColor: "#ef405f",
-                    marginRight: "1px",
-                    color: "#fff"
-                }}
-                onClick={handleClick}
-            >
-                {options[selectedIndex] }
-            </Button>
+            {/*<Button*/}
+            {/*    style={{*/}
+            {/*        backgroundColor: "#ef405f",*/}
+            {/*        marginRight: "1px",*/}
+            {/*        color: "#fff"*/}
+            {/*    }}*/}
+            {/*>*/}
+            {/*    {options[selectedIndex] }*/}
+            {/*</Button>*/}
             <Button
                 size="small"
                 aria-controls={open ? "split-button-menu" : undefined}

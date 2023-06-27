@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { TbBeach, TbMountain, TbPool } from "react-icons/tb";
 import { GiBarn, GiBoatFishing, GiCactus, GiCastle, GiCaveEntrance, GiForestCamp, GiIsland, GiMountainRoad, GiWindmill } from "react-icons/gi";
 import { MdOutlineVilla, MdLocationCity } from "react-icons/md";
@@ -6,6 +6,7 @@ import { FaSkiing } from "react-icons/fa";
 import { BsSnow } from "react-icons/bs";
 import { IoDiamond } from "react-icons/io5" ;
 import CategoryBox from "./CategoryBox";
+import hotelApi from "../../api/hotelApi";
 
 export const categories = [
     {
@@ -95,26 +96,35 @@ export const categories = [
     }
 ]
 
-export default function Categories() {
+export default function Categories({rooms,setRooms}) {
     const [selectedCategory, setSelectedCategory] = useState('');
-    
+    useEffect(()=>{
+        getListRoomsWithCategory();
+    });
+    async function getListRoomsWithCategory(){
+        const result = await hotelApi.getListHotelWithCategory(selectedCategory)
+            .then((res)=>{
+                const listRooms = res.data.data;
+                setRooms(listRooms);
+            })
+    }
     return (
         <>
             <div
                 style={{
                     display:'flex', flexDirection:'row', alignItems:'center', width:'100%',
-                    overflowX:'auto', padding:'5px', position:'fixed', top:'80px', 
+                    overflowX:'auto', padding:'5px', position:'fixed', top:'80px',
                     background: '#fff', zIndex:1, borderTop:'1px solid #ccc', borderBottom:'1px solid #ccc'
-                }} 
+                }}
 
             >
                 {categories.map((item) => (
-                    <CategoryBox 
+                    <CategoryBox
                         key={item.label} label={item.label} icon={item.icon}
                         selectedCategory = {selectedCategory} setSelectedCategory = {setSelectedCategory}
                     />
                 ))}
-            </div>  
+            </div>
         </>
     )
 }

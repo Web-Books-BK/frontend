@@ -20,6 +20,7 @@ export default function HotelUpload({reload, setReload}) {
             price: "",
             address: "",
             phone: "",
+            category:"",
             images: []
         }
     });
@@ -231,7 +232,7 @@ export default function HotelUpload({reload, setReload}) {
                                 }
                             });
                         }}
-                    />
+                    /><br />
                     <FormControlLabel required control={<Checkbox />} label="Wifi"
                                       defaultValue={roomInfo.room.wifi}
                                       onChange={(e)=> {
@@ -293,8 +294,20 @@ export default function HotelUpload({reload, setReload}) {
                     id="disable-portal"
                     disablePortal
                     sx={{margin: theme.spacing(2), width: 500}}
+                    onChange={(e)=>{
+                        const category = e.target.innerHTML;
+                        setRoomInfo({
+                            room: {
+                                ...roomInfo.room,
+                                category: category
+                            }
+                        })
+                    }}
                     renderInput={(params) => (
-                      <TextField {...params} label="Category" variant="standard" />
+                      <TextField {...params} label="Category" variant="standard"
+                                 // value={}
+
+                      />
                     )}
                 />
                 <TextField

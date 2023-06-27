@@ -5,6 +5,10 @@ const hotelApi = {
         const response = await axiosClient.get('/rooms');
         return response;
     },
+    getListHotelWithCategory: async (params)=>{
+        const response = await axiosClient.get(`/rooms?category=${params}`)
+        return response;
+    },
     getDetailHotel: async (id) => {
         const response = await axiosClient.get(`/rooms/${id}`);
         return response;

@@ -10,6 +10,7 @@ import {useEffect} from "react";
 import DetailPage from "./pages/DetailPage";
 import RentedPage from "./pages/RentedPage";
 import {login} from "./app/reducers/authSlice";
+import authApi from "./api/authApi";
 
 function App() {
 
@@ -20,9 +21,18 @@ function App() {
     useEffect(()=>{
         const token = sessionStorage.getItem("token");
         if(token){
-            dispatch(login());
+            const result = authApi.getUserInfo()
+                .then((res)=>{
+                    if(res.status==200) {
+                        const userInfo = res.data.data.user;
+                        dispatch(login(userInfo));
+                    }
+                })
         }
     },[authState])
+    useEffect(()=>{
+        console.log("authState",authState)
+    })
   return (
         <div className="App">
             <Routes>
